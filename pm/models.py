@@ -7,8 +7,8 @@ class Project(models.Model):
 	description		= models.TextField()
 	date_added		= models.DateField(auto_now_add=True)
 	start_date		= models.DateField()
-	due_date		= models.DateField()
-	date_complete	= models.DateField()
+	due_date		= models.DateField(null=True)
+	date_complete	= models.DateField(null=True)
 
 	def __unicode__(self):
 		return self.name
@@ -33,10 +33,10 @@ class Worker(models.Model):
 	project			= models.ForeignKey(Project)
 	person			= models.ForeignKey(People)
 	date_added		= models.DateField(auto_now_add=True)
-	start_date		= models.DateField()
-	date_complete	= models.DateField()
-	percent_committed = models.IntegerField()
-	owner			= models.BooleanField()
+	start_date		= models.DateField(null=True)
+	date_complete	= models.DateField(null=True)
+	percent_committed = models.IntegerField(null=True)
+	owner			= models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return ("%s-%s" % (self.person.name, self.project.name)).replace(" ", "_")
@@ -47,9 +47,9 @@ class Task(models.Model):
 	project			= models.ForeignKey(Project)
 	description		= models.TextField()
 	date_added		= models.DateField(auto_now_add=True)
-	start_date		= models.DateField()
-	due_date		= models.DateField()
-	date_complete	= models.DateField()
+	start_date		= models.DateField(null=True)
+	due_date		= models.DateField(null=True)
+	date_complete	= models.DateField(null=True)
 
 	def __unicode__(self):
 		return "%s-%s" % (self.project.name, name)
