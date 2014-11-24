@@ -36,12 +36,34 @@
 				<div class="col-md-3">
 					<table class="table table-hover">
 						<tbody>
-							<tr><td class="info"><h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Project</h4></td></tr>
+							<tr><td class="info" data-toggle="modal" data-target="#newProj"><h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Project</h4></td></tr>
 							{% for project in projects %}
 							<tr><td><h4>{{ project.name }}</h4></td></tr>
 							{% endfor %}
 						</tbody>
 					</table>
+					<div id="newProj" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newProjLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<form action="" method="post" id="create-project">
+									{% csrf_token %}
+
+									<div class="modal-header">
+										<h4 class="modal-title" id="newProjLabel">Add New Project</h4>
+									</div>
+									
+									<table class="table">
+									{{ proj_form.as_table }}
+									</table>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-primary">Save changes</button>
+									</div>
+								</form>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
 				</div>
 				<div class="col-md-9">
 				{% for project in projects %}
@@ -81,5 +103,36 @@
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+		// handle create form stuff
+		$('#create-project').on('submit', function(event){
+			event.preventDefault();
+			console.log("form submitted!");  // sanity check
+			
+			$.ajax({
+					url : "create_project",
+					type : "POST",
+					data : {
+						name : $('#id_name').val(),
+						requester : $('#id_requester').val(),
+						description : $('#id_description').val(),
+						start_date : $('id_start_date').val(),
+						end_date : $('id_end_date').val()
+					},
+					// handle a successful response
+					success : function(json) {
+						$('#post-text').val(''); // remove the value from the input
+						console.log(json); // log the returned json to the console
+						console.log("success"); // another sanity check
+					},
+					// handle a non-successful response
+					error : function(xhr,errmsg,err) {
+						$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+							" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+						console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+					}
+				});
+			});
+		</script>
 	</body>
 </html>
