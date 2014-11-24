@@ -8,6 +8,11 @@
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+		
+		<style>
+		body { padding-top: 50px; }
+		</style>
+
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -17,13 +22,60 @@
 	</head>
 	<body>
 
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<p class="navbar-text">ProjManager 0.1</p>
+					<ul class="nav navbar-nav"></ul>
+				</div>
+			</div>
+		</nav>
+
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4">
-				{% for project in projects %}
-					<div class="col-md-4">{{ project.name }}</div>
-				{% endfor %}
+				<div class="col-md-3">
+					<table class="table table-hover">
+						<tbody>
+							<tr><td class="info"><h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Project</h4></td></tr>
+							{% for project in projects %}
+							<tr><td><h4>{{ project.name }}</h4></td></tr>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
+				<div class="col-md-9">
+				{% for project in projects %}
+				<div class="row" id="{{ project.id }}">
+					<div class="col-md-6 project-name"><h2>{{ project.name }}</h2></div>
+					<div class="col-md-6">
+						<div class="row">
+							<div class="col-md-4 caption">Requester:</div>
+							<div class="col-md-8 project-info">{{ project.requester }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 caption">Start Date:</div>
+							<div class="col-md-8 project-info">{{ project.start_date }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 caption">Due Date:</div>
+							<div class="col-md-8 project-info">{{ project.due_date }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 project-description">
+						<p class="lead">{{ project.description }}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 workers">
+					{% for worker in project.worker_set.all %}
+						<div class="btn">{{ worker.person.name }}{% if worker.percent_committed <= 100 and worker.percent_committed >= 0 %} ({{ worker.percent_committed }}){% endif %}{% if worker.owner %} - owner{% endif %}</div>
+					{% endfor %}
+					</div>
+				</div>
+				{% endfor %}
+
 			</div>
 		</div>
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from pm.models import People, Group, Project
+from pm.models import People, Group, Project, Worker
 
 
 class PeopleInline(admin.TabularInline):
@@ -14,7 +14,12 @@ class GroupAdmin(admin.ModelAdmin):
 	]
 	inlines = [ PeopleInline ]
 
+class WorkerInline(admin.TabularInline):
+	model = Worker
+	extra = 3
+
 
 admin.site.register(People)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Project)
+admin.site.register(Worker)
