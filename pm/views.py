@@ -1,5 +1,8 @@
-from django.http import HttpResponse
+import json
+
+from django.http import JsonResponse
 from django.views.generic import TemplateView
+
 from pm.models import Project
 from pm.forms import *
 
@@ -23,12 +26,7 @@ def create_project(request):
 		form = ProjectForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return HttpResponse(
-				json.dumps(response_data),
-				content_type="application/json"
-			)
+			return JsonResponse({"result": "success"})
 		else:
-			return HttpResponse(
-			json.dumps({"response_data":"error"}),
-			content_type="application/json"
-		)
+			form.errors["result"] = "fail"
+			return JsonResponse(form.errors)

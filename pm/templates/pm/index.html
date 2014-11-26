@@ -11,6 +11,7 @@
 		
 		<style>
 		body { padding-top: 50px; }
+		div.project-info { display: none; }
 		</style>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -38,7 +39,7 @@
 						<tbody>
 							<tr><td class="info" data-toggle="modal" data-target="#newProj"><h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Project</h4></td></tr>
 							{% for project in projects %}
-							<tr><td><h4>{{ project.name }}</h4></td></tr>
+							<tr><td class="project-name" data-id="{{ project.id }}"><h4>{{ project.name }}</h4></td></tr>
 							{% endfor %}
 						</tbody>
 					</table>
@@ -67,33 +68,37 @@
 				</div>
 				<div class="col-md-9">
 				{% for project in projects %}
-				<div class="row" id="{{ project.id }}">
-					<div class="col-md-6 project-name"><h2>{{ project.name }}</h2></div>
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-md-4 caption">Requester:</div>
-							<div class="col-md-8 project-info">{{ project.requester }}</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4 caption">Start Date:</div>
-							<div class="col-md-8 project-info">{{ project.start_date }}</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4 caption">Due Date:</div>
-							<div class="col-md-8 project-info">{{ project.due_date }}</div>
+				<div class="project-info" id="project-info-{{ project.id }}">
+					<div class="row" id="{{ project.id }}">
+						<div class="col-md-6 project-name"><h2>{{ project.name }}</h2></div>
+						<div class="col-md-6">
+							<table class="table table-condensed">
+								<tr>
+									<td>Requester:</td>
+									<td>{{ project.requester }}</td>
+								</tr>
+								<tr>
+									<td>Start Date:</td>
+									<td>{{ project.start_date }}</td>
+								</tr>
+								<tr>
+									<td>Due Date:</td>
+									<td>{{ project.due_date }}</td>
+								</tr>
+							</table>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 project-description">
-						<p class="lead">{{ project.description }}</p>
+					<div class="row">
+						<div class="col-md-12 project-description">
+							<p class="lead">{{ project.description }}</p>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 workers">
-					{% for worker in project.worker_set.all %}
-						<div class="btn">{{ worker.person.name }}{% if worker.percent_committed <= 100 and worker.percent_committed >= 0 %} ({{ worker.percent_committed }}){% endif %}{% if worker.owner %} - owner{% endif %}</div>
-					{% endfor %}
+					<div class="row">
+						<div class="col-md-12 workers">
+						{% for worker in project.worker_set.all %}
+							<div class="btn">{{ worker.person.name }}{% if worker.percent_committed <= 100 and worker.percent_committed >= 0 %} ({{ worker.percent_committed }}){% endif %}{% if worker.owner %} - owner{% endif %}</div>
+						{% endfor %}
+						</div>
 					</div>
 				</div>
 				{% endfor %}
@@ -102,34 +107,59 @@
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
 		<script type="text/javascript">
-		// handle create form stuff
+		//
+		// SITE INTERACTIVITY
+		//
+
+		$('.project-name').on("click", function(event){
+			$(".project-info").hide();  // ensure all other views are hidden
+			$("#project-info-" + event.currentTarget.dataset.id).show();
+		});
+
+		//
+		// AJAX CONTENT
+		//
+
+		// ### SEE https://docs.djangoproject.com/en/dev/ref/csrf/ FOR DETAILS ON THE FOLLOWING ###
+		// The following code ensures that the CSRF token is properly inserted in the header of the AJAX request
+
+		var csrftoken = $.cookie('csrftoken');
+
+		function csrfSafeMethod(method) {
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader("X-CSRFToken", csrftoken);
+				}
+			}
+		});
+		
+		// ### END AJAX HEADER CONTENT
+
+		// new project
 		$('#create-project').on('submit', function(event){
 			event.preventDefault();
-			console.log("form submitted!");  // sanity check
-			
+		
 			$.ajax({
-					url : "create_project",
-					type : "POST",
-					data : {
-						name : $('#id_name').val(),
-						requester : $('#id_requester').val(),
-						description : $('#id_description').val(),
-						start_date : $('id_start_date').val(),
-						end_date : $('id_end_date').val()
+					url: "create_project",
+					type: "POST",
+					dataType: "json",
+					data: $('#create-project').serialize(),
+					success: function(json) {
+						$('#create-project').trigger('reset'); // remove the value from the input
+						$('#newProj').modal('hide');
 					},
-					// handle a successful response
-					success : function(json) {
-						$('#post-text').val(''); // remove the value from the input
-						console.log(json); // log the returned json to the console
-						console.log("success"); // another sanity check
-					},
-					// handle a non-successful response
-					error : function(xhr,errmsg,err) {
-						$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-							" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-						console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+					error: function(xhr,errmsg,err) {
+						$('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg + "<a href='#' class='close'>&times;</a></div>");
+						console.log(xhr.status + ": " + xhr.responseText);
 					}
 				});
 			});
