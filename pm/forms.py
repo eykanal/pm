@@ -3,6 +3,6 @@ from pm.models import Project
 
 
 class ProjectForm(ModelForm):
-	class Meta:
-		model = Project
-		fields = ['name', 'requester', 'description', 'start_date', 'due_date']
+    class Meta:
+        model = Project
+        fields = ['name', 'requester', 'description', 'start_date', 'due_date']

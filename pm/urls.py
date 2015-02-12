@@ -5,6 +5,6 @@ from views import *
 
 
 urlpatterns = patterns('',
-    url(r'^$', Index.as_view(), name='index'),
-    url(r'^create_project$', create_project, name='create_project'),
+	url(r'^$', Index.as_view(), name='index'),
+	url(r'^create_project$', create_project, name='create_project'),
 )

@@ -3,20 +3,20 @@ from pm.models import People, Group, Project, Worker
 
 
 class PeopleInline(admin.TabularInline):
-	model = People
-	extra = 3
-	ordering = ('name',)
+    model = People
+    extra = 3
+    ordering = ('name',)
 
 
 class GroupAdmin(admin.ModelAdmin):
-	fieldsets = [
-		( None, {'fields': ['name']} )
-	]
-	inlines = [ PeopleInline ]
+    fieldsets = [
+        ( None, {'fields': ['name']} )
+    ]
+    inlines = [ PeopleInline ]
 
 class WorkerInline(admin.TabularInline):
-	model = Worker
-	extra = 3
+    model = Worker
+    extra = 3
 
 
 admin.site.register(People)
