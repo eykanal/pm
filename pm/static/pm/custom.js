@@ -1,3 +1,5 @@
+"use strict";
+
 //
 // SITE INTERACTIVITY
 //
@@ -13,18 +15,13 @@ $('.project-name').on("click", function(event){
 
 // ### SEE https://docs.djangoproject.com/en/dev/ref/csrf/ FOR DETAILS ON THE FOLLOWING ###
 // The following code ensures that the CSRF token is properly inserted in the header of the AJAX request
-
-var csrftoken = $.cookie('csrftoken');
-
-function csrfSafeMethod(method) {
-	// these HTTP methods do not require CSRF protection
-	return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
+// Note: I "simplified" (i.e., reduced and probably obfuscated) the code
 
 $.ajaxSetup({
 	beforeSend: function(xhr, settings) {
-		if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-			xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		// the listed HTTP methods do not require CSRF protection
+		if (!(/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)) && !this.crossDomain) {
+			xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
 		}
 	}
 });
