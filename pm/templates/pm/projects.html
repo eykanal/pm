@@ -13,6 +13,8 @@
 							{% endfor %}
 						</tbody>
 					</table>
+
+                    <!-- New Project modal dialog box -->
 					<div id="newProj" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newProjLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -36,6 +38,7 @@
 						</div><!-- /.modal-dialog -->
 					</div><!-- /.modal -->
 				</div>
+
 				<div class="col-md-9">
 				{% for project in projects %}
 				<div class="project-info" id="project-info-{{ project.id }}">
@@ -66,10 +69,31 @@
 					<div class="row">
 						<div class="col-md-12 workers">
 						{% for worker in project.worker_set.all %}
-							<div class="btn">{{ worker.person.name }}{% if worker.percent_committed <= 100 and worker.percent_committed >= 0 %} ({{ worker.percent_committed }}){% endif %}{% if worker.owner %} - owner{% endif %}</div>
+							<a href="#" class="btn btn-{% if worker.owner %}primary{% else %}default{% endif %}">{{ worker.person.name }}{% if worker.percent_committed <= 100 and worker.percent_committed >= 0 %} ({{ worker.percent_committed }}){% endif %}</a>
 						{% endfor %}
 						</div>
 					</div>
+                    <div class="row">
+                        <div class="col-md-12 tasks">
+                            <table class="table">
+                                <thead>
+                                    <tr><th>Name</th><th>Description</th><th>Start Date</th><th>Due Date</th><th>Completed Date</th><th>Assigned To</th></tr>
+                                </thead>
+                            {% for task in project.task_set.all %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ task.name }}</td>
+                                        <td>{{ task.description }}</td>
+                                        <td>{{ task.start_date }}</td>
+                                        <td>{{ task.due_date }}</td>
+                                        <td>{{ task.date_completed }}</td>
+                                        <td>{% for taskworker in task.taskworker_set.all %}<a href="#" class="btn btn-default">{{ taskworker.worker.person.name }}</a>{% endfor %}</td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    </div>
 				</div>
 				{% endfor %}
 

@@ -49,8 +49,8 @@ class Worker(models.Model):
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=500)
     project = models.ForeignKey(Project)
+    name = models.CharField(max_length=500)
     description = models.TextField()
     date_added = models.DateField(auto_now_add=True)
     start_date = models.DateField(null=True, blank=True)
@@ -58,10 +58,10 @@ class Task(models.Model):
     date_complete = models.DateField(null=True, blank=True)
 
     class Meta:
-        unique_together = ('name', 'project')
+        unique_together = ('name', 'project',)
 
     def __unicode__(self):
-        return "%s-%s" % (self.project.name, name)
+        return ("%s-%s" % (self.project.name, self.name)).replace(" ", "_")
 
 
 class TaskWorker(models.Model):
@@ -72,4 +72,4 @@ class TaskWorker(models.Model):
         unique_together = ('task', 'worker',)
 
     def __unicode__(self):
-        return ("%s-%s-%s" % (self.worker.person.name, self.worker.project.name, self.task.name)).replace (" ", "_")
+        return ("%s-%s-%s" % (self.worker.person.name, self.worker.project.name, self.task.name)).replace(" ", "_")
