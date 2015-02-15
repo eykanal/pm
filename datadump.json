@@ -1,1 +1,336 @@
-[{"fields": {"due_date": "2014-11-25", "description": "Ensure that the dashboard is visible with lots of stuff on it. Make sure it is in Tableau so that people can see it. It should be pretty with a bow on top.", "date_complete": null, "requester": "Jim Whitman", "date_added": "2014-11-26", "start_date": "2014-11-21", "name": "SQM"}, "model": "pm.project", "pk": 1}, {"fields": {"due_date": "2014-11-25", "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec id elit non mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vestibulum id ligula porta felis euismod semper. Vestibulum id ligula porta felis euismod semper.", "date_complete": null, "requester": "Bob", "date_added": "2014-11-26", "start_date": "2014-11-21", "name": "Test"}, "model": "pm.project", "pk": 2}, {"fields": {"due_date": "2014-11-26", "description": "Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.", "date_complete": null, "requester": "Jim", "date_added": "2014-11-26", "start_date": "2014-11-21", "name": "Thing"}, "model": "pm.project", "pk": 3}, {"fields": {}, "model": "pm.group", "pk": "MAAD"}, {"fields": {}, "model": "pm.group", "pk": "OAR"}, {"fields": {"group": "MAAD", "name": "Bill"}, "model": "pm.people", "pk": 1}, {"fields": {"group": "MAAD", "name": "Bob"}, "model": "pm.people", "pk": 2}, {"fields": {"group": "MAAD", "name": "Brett"}, "model": "pm.people", "pk": 3}, {"fields": {"group": "OAR", "name": "Jim"}, "model": "pm.people", "pk": 4}, {"fields": {"group": "OAR", "name": "Jared"}, "model": "pm.people", "pk": 5}, {"fields": {"group": "OAR", "name": "Joseph"}, "model": "pm.people", "pk": 6}, {"fields": {"group": "OAR", "name": "Jack"}, "model": "pm.people", "pk": 7}, {"fields": {"group": "MAAD", "name": "Barry"}, "model": "pm.people", "pk": 8}, {"fields": {"group": "MAAD", "name": "Byron"}, "model": "pm.people", "pk": 9}, {"fields": {"percent_committed": 100, "project": 1, "person": 1, "date_complete": null, "owner": false, "date_added": null, "start_date": null}, "model": "pm.worker", "pk": 1}, {"fields": {"percent_committed": 100, "project": 1, "person": 2, "date_complete": null, "owner": true, "date_added": null, "start_date": null}, "model": "pm.worker", "pk": 2}, {"fields": {"percent_committed": null, "project": 3, "person": 2, "date_complete": null, "owner": false, "date_added": "2015-02-13", "start_date": "2015-02-13"}, "model": "pm.worker", "pk": 3}, {"fields": {"percent_committed": null, "project": 3, "person": 5, "date_complete": null, "owner": true, "date_added": "2015-02-13", "start_date": "2015-02-13"}, "model": "pm.worker", "pk": 4}, {"fields": {"percent_committed": null, "project": 3, "person": 9, "date_complete": null, "owner": false, "date_added": "2015-02-13", "start_date": "2015-02-13"}, "model": "pm.worker", "pk": 5}, {"fields": {"percent_committed": null, "project": 2, "person": 7, "date_complete": null, "owner": false, "date_added": "2015-02-13", "start_date": "2015-02-13"}, "model": "pm.worker", "pk": 6}, {"fields": {"percent_committed": null, "project": 2, "person": 3, "date_complete": null, "owner": false, "date_added": "2015-02-13", "start_date": "2015-02-13"}, "model": "pm.worker", "pk": 7}, {"fields": {"percent_committed": null, "project": 2, "person": 2, "date_complete": null, "owner": true, "date_added": "2015-02-13", "start_date": "2015-02-13"}, "model": "pm.worker", "pk": 8}, {"fields": {"due_date": "2015-02-13", "name": "Do the thing", "project": 1, "date_complete": null, "date_added": "2015-02-13", "start_date": "2015-02-13", "description": "Cras mattis consectetur purus sit amet fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."}, "model": "pm.task", "pk": 3}, {"fields": {"due_date": "2015-02-13", "name": "The other thing", "project": 1, "date_complete": null, "date_added": "2015-02-13", "start_date": "2015-02-13", "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Sed posuere consectetur est at lobortis.\r\n\r\nCras justo odio, dapibus ac facilisis in, egestas eget quam. Sed posuere consectetur est at lobortis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur blandit tempus porttitor. Donec id elit non mi porta gravida at eget metus."}, "model": "pm.task", "pk": 4}, {"fields": {"due_date": "2015-02-13", "name": "The third thing", "project": 1, "date_complete": null, "date_added": "2015-02-13", "start_date": "2015-02-13", "description": "Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."}, "model": "pm.task", "pk": 5}, {"fields": {"due_date": "2015-02-13", "name": "Ridiculus Fusce Lorem", "project": 2, "date_complete": null, "date_added": "2015-02-13", "start_date": "2015-02-13", "description": "Donec id elit non mi porta gravida at eget metus. Cras mattis consectetur purus sit amet fermentum. Vestibulum id ligula porta felis euismod semper. Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."}, "model": "pm.task", "pk": 6}, {"fields": {"due_date": null, "name": "Cras Amet Sollicitudin Ipsum", "project": 2, "date_complete": null, "date_added": "2015-02-13", "start_date": "2015-02-13", "description": "Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor."}, "model": "pm.task", "pk": 7}, {"fields": {"task": 3, "worker": 1}, "model": "pm.taskworker", "pk": 2}, {"fields": {"task": 4, "worker": 1}, "model": "pm.taskworker", "pk": 3}, {"fields": {"task": 4, "worker": 2}, "model": "pm.taskworker", "pk": 4}, {"fields": {"task": 6, "worker": 6}, "model": "pm.taskworker", "pk": 5}, {"fields": {"task": 7, "worker": 8}, "model": "pm.taskworker", "pk": 6}]
+[
+  {
+    "fields": {
+      "due_date": "2014-11-25",
+      "description": "Ensure that the dashboard is visible with lots of stuff on it. Make sure it is in Tableau so that people can see it. It should be pretty with a bow on top.",
+      "date_complete": null,
+      "requester": "Jim Whitman",
+      "date_added": "2014-11-26",
+      "start_date": "2014-11-21",
+      "name": "SQM"
+    },
+    "model": "pm.project",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "due_date": "2014-11-25",
+      "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec id elit non mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Vestibulum id ligula porta felis euismod semper. Vestibulum id ligula porta felis euismod semper.",
+      "date_complete": null,
+      "requester": "Bob",
+      "date_added": "2014-11-26",
+      "start_date": "2014-11-21",
+      "name": "Test"
+    },
+    "model": "pm.project",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "due_date": "2014-11-26",
+      "description": "Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.",
+      "date_complete": null,
+      "requester": "Jim",
+      "date_added": "2014-11-26",
+      "start_date": "2014-11-21",
+      "name": "Thing"
+    },
+    "model": "pm.project",
+    "pk": 3
+  },
+  {
+    "fields": {
+      
+    },
+    "model": "pm.group",
+    "pk": "MAAD"
+  },
+  {
+    "fields": {
+      
+    },
+    "model": "pm.group",
+    "pk": "OAR"
+  },
+  {
+    "fields": {
+      "group": "MAAD",
+      "name": "Bill"
+    },
+    "model": "pm.people",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "group": "MAAD",
+      "name": "Bob"
+    },
+    "model": "pm.people",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "group": "MAAD",
+      "name": "Brett"
+    },
+    "model": "pm.people",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "group": "OAR",
+      "name": "Jim"
+    },
+    "model": "pm.people",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "group": "OAR",
+      "name": "Jared"
+    },
+    "model": "pm.people",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "group": "OAR",
+      "name": "Joseph"
+    },
+    "model": "pm.people",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "group": "OAR",
+      "name": "Jack"
+    },
+    "model": "pm.people",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "group": "MAAD",
+      "name": "Barry"
+    },
+    "model": "pm.people",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "group": "MAAD",
+      "name": "Byron"
+    },
+    "model": "pm.people",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "percent_committed": 100,
+      "project": 1,
+      "person": 1,
+      "date_complete": null,
+      "owner": false,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "percent_committed": 100,
+      "project": 1,
+      "person": 2,
+      "date_complete": null,
+      "owner": true,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "percent_committed": null,
+      "project": 3,
+      "person": 2,
+      "date_complete": null,
+      "owner": false,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "percent_committed": null,
+      "project": 3,
+      "person": 5,
+      "date_complete": null,
+      "owner": true,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "percent_committed": null,
+      "project": 3,
+      "person": 9,
+      "date_complete": null,
+      "owner": false,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "percent_committed": null,
+      "project": 2,
+      "person": 7,
+      "date_complete": null,
+      "owner": false,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "percent_committed": null,
+      "project": 2,
+      "person": 3,
+      "date_complete": null,
+      "owner": false,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "percent_committed": null,
+      "project": 2,
+      "person": 2,
+      "date_complete": null,
+      "owner": true,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13"
+    },
+    "model": "pm.worker",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "due_date": "2015-02-13",
+      "name": "Do the thing",
+      "project": 1,
+      "date_complete": null,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13",
+      "description": "Cras mattis consectetur purus sit amet fermentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."
+    },
+    "model": "pm.task",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "due_date": "2015-02-13",
+      "name": "The other thing",
+      "project": 1,
+      "date_complete": null,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13",
+      "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Sed posuere consectetur est at lobortis.\r\n\r\nCras justo odio, dapibus ac facilisis in, egestas eget quam. Sed posuere consectetur est at lobortis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur blandit tempus porttitor. Donec id elit non mi porta gravida at eget metus."
+    },
+    "model": "pm.task",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "due_date": "2015-02-13",
+      "name": "The third thing",
+      "project": 1,
+      "date_complete": null,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13",
+      "description": "Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas faucibus mollis interdum. Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."
+    },
+    "model": "pm.task",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "due_date": "2015-02-13",
+      "name": "Ridiculus Fusce Lorem",
+      "project": 2,
+      "date_complete": null,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13",
+      "description": "Donec id elit non mi porta gravida at eget metus. Cras mattis consectetur purus sit amet fermentum. Vestibulum id ligula porta felis euismod semper. Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."
+    },
+    "model": "pm.task",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "due_date": null,
+      "name": "Cras Amet Sollicitudin Ipsum",
+      "project": 2,
+      "date_complete": null,
+      "date_added": "2015-02-13",
+      "start_date": "2015-02-13",
+      "description": "Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor."
+    },
+    "model": "pm.task",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "task": 3,
+      "worker": 1
+    },
+    "model": "pm.taskworker",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "task": 4,
+      "worker": 1
+    },
+    "model": "pm.taskworker",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "task": 4,
+      "worker": 2
+    },
+    "model": "pm.taskworker",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "task": 6,
+      "worker": 6
+    },
+    "model": "pm.taskworker",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "task": 7,
+      "worker": 8
+    },
+    "model": "pm.taskworker",
+    "pk": 6
+  }
+]
