@@ -2,8 +2,16 @@ import json
 
 from django.http import JsonResponse
 from django.views.generic import TemplateView, UpdateView, CreateView
-from pm.models import Project
+from pm.models import Project, People
 from pm.forms import ProjectForm
+
+
+# template preprocessor function - people & projects always needed for sidebar
+def menu_items(request):
+    return {
+        'projects': Project.objects.all(),
+        'people': People.objects.all()
+    }
 
 
 # Main view
