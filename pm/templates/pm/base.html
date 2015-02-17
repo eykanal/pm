@@ -55,8 +55,8 @@
             </nav>
         </header>
 
-        <!-- sidebar -->
         <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- sidebar -->
             <aside class="left-side sidebar-offcanvas">
                 <section class="sidebar">
                     <ul class="sidebar-menu">
@@ -93,12 +93,18 @@
                     </ul>
                 </section>
             </aside>
-        </div>
 
+            <!-- content -->
+            <aside class="right-side">
+                <section class="content-header">
+                    <h1>{% block content-header %}{% endblock %}</h1>
+                </section>
+                <section class="content">
+                    {% block content %}{% endblock %}
+                </section>
+            </aside>
 
-        <aside class="right-side">
-            {% block content %}{% endblock %}
-        </aside>
+        </div> <!-- wrapper -->
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>

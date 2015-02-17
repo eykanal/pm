@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 
@@ -12,6 +13,30 @@ class Project(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def completed_tasks(self):
+        """
+        Return the number of completed tasks in a project.
+        """
+        return self.task_set.exclude(date_complete=None)
+
+    def est_completion_date(self):
+        """
+        Iterate through the tasks in a project, return the latest due date as
+        the project completion estimate. If no tasks are yet assigned, return
+         "No Estimate".
+        """
+        if self.task_set.all().count() is 0:
+            return "No estimate"
+        else:
+            due_dates = []
+            for task in self.task_set.all():
+                if task.due_date is None:
+                    date = datetime.date(1904, 1, 1)
+                else:
+                    date = task.due_date
+                due_dates.append(date)
+            return max(due_dates)
 
 
 class Group(models.Model):

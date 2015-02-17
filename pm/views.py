@@ -18,7 +18,7 @@ def menu_items(request):
 class Index(TemplateView):
     projects = Project.objects.all()
     proj_form = ProjectForm()
-    template_name = "pm/projects.html"
+    template_name = "pm/index.html"
 
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
