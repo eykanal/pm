@@ -11,8 +11,10 @@
             <thead>
                 <tr>
                     <th>Project</th>
+                    <th>Customer</th>
                     <th>People</th>
                     <th>Tasks <small>(completed/total)</small></th>
+                    <th>Next Task</th>
                     <th>Est. End Date</th>
                 </tr>
             </thead>
@@ -20,8 +22,10 @@
                 {% for project in projects %}
                 <tr>
                     <td>{{ project.name }}</td>
-                    <td>{% for worker in project.worker_set.all %}{{ worker.person.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    <td>{{ project.requester }}</td>
+                    <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     <td>{{ project.completed_tasks.count }} / {{ project.task_set.all.count }}</td>
+                    <td>{% if project.next_tasks.count == 1 %}{% for task in project.next_tasks %}{{ task.name }} ({{ task.due_date }}){% endfor %}{% elif project.next_tasks.count == 0 %}<i class="text-yellow">No upcoming tasks defined</i>{% else %}<ol>{% for task in project.next_tasks %}<li>{{ task.name }} ({{ task.due_date }}){% endfor %}</ol>{% endif %}</td>
                     <td>{{ project.est_completion_date }}</td>
                 </tr>
                 {% endfor %}

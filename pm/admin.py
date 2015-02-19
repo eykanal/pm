@@ -17,7 +17,7 @@ class GroupAdmin(admin.ModelAdmin):
 
 class WorkerInline(admin.TabularInline):
     model = Worker
-    extra = 3
+    extra = 1
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -36,6 +36,4 @@ class TaskAdmin(admin.ModelAdmin):
 admin.site.register(People)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Project, ProjectAdmin)
-admin.site.register(Worker)
 admin.site.register(Task, TaskAdmin)
-admin.site.register(TaskWorker)
