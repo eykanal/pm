@@ -1,7 +1,7 @@
 import json
 
 from django.http import JsonResponse
-from django.views.generic import TemplateView, UpdateView, CreateView
+from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from pm.models import Project, People
 from pm.forms import ProjectForm
 
@@ -16,17 +16,17 @@ def menu_items(request):
 
 # Main view
 class Index(TemplateView):
-    projects = Project.objects.all()
-    proj_form = ProjectForm()
     template_name = "pm/index.html"
 
-    def get_context_data(self, **kwargs):
-        context = super(Index, self).get_context_data(**kwargs)
-        context.update({
-            'projects': self.projects,
-            'proj_form': self.proj_form,
-        })
-        return context
+
+class ProjectDetailView(DetailView):
+    model = Project
+    template_name = "pm/project_detail.html"
+
+
+class PersonDetailView(DetailView):
+    model = People
+    template_name = "pm/person_detail.html"
 
 
 # handle form submission for new project

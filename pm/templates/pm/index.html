@@ -7,30 +7,76 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Project</th>
-                    <th>Customer</th>
-                    <th>People</th>
-                    <th>Tasks <small>(completed/total)</small></th>
-                    <th>Next Task</th>
-                    <th>Est. End Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for project in projects %}
-                <tr>
-                    <td>{{ project.name }}</td>
-                    <td>{{ project.requester }}</td>
-                    <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
-                    <td>{{ project.completed_tasks.count }} / {{ project.task_set.all.count }}</td>
-                    <td>{% if project.next_tasks.count == 1 %}{% for task in project.next_tasks %}{{ task.name }} ({{ task.due_date }}){% endfor %}{% elif project.next_tasks.count == 0 %}<i class="text-yellow">No upcoming tasks defined</i>{% else %}<ol>{% for task in project.next_tasks %}<li>{{ task.name }} ({{ task.due_date }}){% endfor %}</ol>{% endif %}</td>
-                    <td>{{ project.est_completion_date }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Projects</h3>
+            </div>
+            <div class="box-body no-padding">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Project</th>
+                        <th>Customer</th>
+                        <th>People</th>
+                        <th>Tasks <small>(completed/total)</small></th>
+                        <th>Next Task</th>
+                        <th>Est. End Date</th>
+                    </tr>
+                    {% for project in projects %}
+                    <tr>
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.requester }}</td>
+                        <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td>{{ project.completed_tasks.count }} - {{ project.task_set.all.count }}</td>
+                        <td>{% if project.next_tasks.count == 1 %}{% for task in project.next_tasks %}{{ task.name }} ({{ task.due_date }}){% endfor %}{% elif project.next_tasks.count == 0 %}<i class="text-yellow">No upcoming tasks defined</i>{% else %}<ol>{% for task in project.next_tasks %}<li>{{ task.name }} ({{ task.due_date }})</li>{% endfor %}</ol>{% endif %}</td>
+                        <td>{{ project.est_completion_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">People</h3>
+            </div>
+            <div class="box-body no-padding">
+                <table class="table table-hover">
+                    <tr>
+                        <th>Individual</th>
+                        <th>Project/Lead count</th>
+                        <th>Total Tasks/due within 2 wks.</th>
+                    </tr>
+                    {% for person in people %}
+                    <tr>
+                        <td>{{ person.name }}</td>
+                        <td>{% if person.worker_set.count > 3 %}<span class="text-{% if person.worker_set.count > 5 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.worker_set.count }}{% if person.worker_set.count > 3 %}</span>{% endif %} - {% if person.lead_count > 1 %}<span class="text-{% if person.lead_count > 2 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.lead_count }}{% if person.lead_count > 1 %}</span>{% endif %}</td>
+                        <td>{% if person.task_count > 7 %}<span class="text-{% if person.task_count > 11 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.task_count }}{% if person.task_count > 8 %}</span>{% endif %} - {% if person.two_wk_task_count > 4 %}<span class="text-{% if person.two_wk_task_count > 6 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.two_wk_task_count }}{% if person.two_wk_task_count > 4 %}</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Stats</h3>
+            </div>
+            <div class="box-body">
+                <dt>We</dt>
+                    <dl>are awesome</dl>
+                <dt>If useful</dt>
+                    <dl>we can show interesting stats on our own task completion rates and such</dl>
+                <dt>Eventually</dt>
+                    <dl>we can connect to Sharepoint and show Triage stats</dl>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}
+

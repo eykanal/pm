@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, date, timedelta
 from django.db import models
 
 
@@ -62,6 +62,18 @@ class People(models.Model):
 
     class Meta:
         unique_together = ('name', 'group',)
+
+    def lead_count(self):
+        return self.worker_set.filter(owner=True).count()
+
+    def task_count(self):
+        return TaskWorker.objects.filter(worker__person=self).count()
+
+    def two_wk_task_count(self):
+        return TaskWorker.objects.filter(worker__person=self, task__due_date__range=[
+            date.today(),
+            date.today() + timedelta(14)
+        ]).count()
 
     def __unicode__(self):
         return self.name
