@@ -1,6 +1,122 @@
 [
   {
     "fields": {
+      "model": "logentry",
+      "name": "log entry",
+      "app_label": "admin"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "model": "permission",
+      "name": "permission",
+      "app_label": "auth"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "model": "group",
+      "name": "group",
+      "app_label": "auth"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "model": "user",
+      "name": "user",
+      "app_label": "auth"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 28
+  },
+  {
+    "fields": {
+      "model": "contenttype",
+      "name": "content type",
+      "app_label": "contenttypes"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 29
+  },
+  {
+    "fields": {
+      "model": "session",
+      "name": "session",
+      "app_label": "sessions"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 30
+  },
+  {
+    "fields": {
+      "model": "project",
+      "name": "project",
+      "app_label": "pm"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 31
+  },
+  {
+    "fields": {
+      "model": "group",
+      "name": "group",
+      "app_label": "pm"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 32
+  },
+  {
+    "fields": {
+      "model": "people",
+      "name": "people",
+      "app_label": "pm"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 33
+  },
+  {
+    "fields": {
+      "model": "worker",
+      "name": "worker",
+      "app_label": "pm"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 34
+  },
+  {
+    "fields": {
+      "model": "task",
+      "name": "task",
+      "app_label": "pm"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 35
+  },
+  {
+    "fields": {
+      "model": "taskworker",
+      "name": "task worker",
+      "app_label": "pm"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 36
+  },
+  {
+    "fields": {
+      "expire_date": "2015-03-06T03:56:44.759Z",
+      "session_data": "NjAwMjgwYjA1MmEwZDA5Y2JkZTU2M2FjYjhmMzYwN2I3YTE1MjkzYTp7Il9hdXRoX3VzZXJfaGFzaCI6IjNhYWNlMmYwMGQ1OTM3MjkxMjZkY2FkZDI0NzQzMDNkMWQyODM0YzEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjJ9"
+    },
+    "model": "sessions.session",
+    "pk": "0sou8n8td7eqqfff0cl31oq6fgvo936f"
+  },
+  {
+    "fields": {
       "due_date": "2014-11-25",
       "description": "Ensure that the dashboard is visible with lots of stuff on it. Make sure it is in Tableau so that people can see it. It should be pretty with a bow on top.",
       "date_complete": null,
@@ -282,7 +398,7 @@
   },
   {
     "fields": {
-      "due_date": null,
+      "due_date": "2015-02-20",
       "name": "Cras Amet Sollicitudin Ipsum",
       "project": 2,
       "date_complete": null,
@@ -332,5 +448,364 @@
     },
     "model": "pm.taskworker",
     "pk": 6
+  },
+  {
+    "fields": {
+      "codename": "add_logentry",
+      "name": "Can add log entry",
+      "content_type": 25
+    },
+    "model": "auth.permission",
+    "pk": 73
+  },
+  {
+    "fields": {
+      "codename": "change_logentry",
+      "name": "Can change log entry",
+      "content_type": 25
+    },
+    "model": "auth.permission",
+    "pk": 74
+  },
+  {
+    "fields": {
+      "codename": "delete_logentry",
+      "name": "Can delete log entry",
+      "content_type": 25
+    },
+    "model": "auth.permission",
+    "pk": 75
+  },
+  {
+    "fields": {
+      "codename": "add_permission",
+      "name": "Can add permission",
+      "content_type": 26
+    },
+    "model": "auth.permission",
+    "pk": 76
+  },
+  {
+    "fields": {
+      "codename": "change_permission",
+      "name": "Can change permission",
+      "content_type": 26
+    },
+    "model": "auth.permission",
+    "pk": 77
+  },
+  {
+    "fields": {
+      "codename": "delete_permission",
+      "name": "Can delete permission",
+      "content_type": 26
+    },
+    "model": "auth.permission",
+    "pk": 78
+  },
+  {
+    "fields": {
+      "codename": "add_group",
+      "name": "Can add group",
+      "content_type": 27
+    },
+    "model": "auth.permission",
+    "pk": 79
+  },
+  {
+    "fields": {
+      "codename": "change_group",
+      "name": "Can change group",
+      "content_type": 27
+    },
+    "model": "auth.permission",
+    "pk": 80
+  },
+  {
+    "fields": {
+      "codename": "delete_group",
+      "name": "Can delete group",
+      "content_type": 27
+    },
+    "model": "auth.permission",
+    "pk": 81
+  },
+  {
+    "fields": {
+      "codename": "add_user",
+      "name": "Can add user",
+      "content_type": 28
+    },
+    "model": "auth.permission",
+    "pk": 82
+  },
+  {
+    "fields": {
+      "codename": "change_user",
+      "name": "Can change user",
+      "content_type": 28
+    },
+    "model": "auth.permission",
+    "pk": 83
+  },
+  {
+    "fields": {
+      "codename": "delete_user",
+      "name": "Can delete user",
+      "content_type": 28
+    },
+    "model": "auth.permission",
+    "pk": 84
+  },
+  {
+    "fields": {
+      "codename": "add_contenttype",
+      "name": "Can add content type",
+      "content_type": 29
+    },
+    "model": "auth.permission",
+    "pk": 85
+  },
+  {
+    "fields": {
+      "codename": "change_contenttype",
+      "name": "Can change content type",
+      "content_type": 29
+    },
+    "model": "auth.permission",
+    "pk": 86
+  },
+  {
+    "fields": {
+      "codename": "delete_contenttype",
+      "name": "Can delete content type",
+      "content_type": 29
+    },
+    "model": "auth.permission",
+    "pk": 87
+  },
+  {
+    "fields": {
+      "codename": "add_session",
+      "name": "Can add session",
+      "content_type": 30
+    },
+    "model": "auth.permission",
+    "pk": 88
+  },
+  {
+    "fields": {
+      "codename": "change_session",
+      "name": "Can change session",
+      "content_type": 30
+    },
+    "model": "auth.permission",
+    "pk": 89
+  },
+  {
+    "fields": {
+      "codename": "delete_session",
+      "name": "Can delete session",
+      "content_type": 30
+    },
+    "model": "auth.permission",
+    "pk": 90
+  },
+  {
+    "fields": {
+      "codename": "add_project",
+      "name": "Can add project",
+      "content_type": 31
+    },
+    "model": "auth.permission",
+    "pk": 91
+  },
+  {
+    "fields": {
+      "codename": "change_project",
+      "name": "Can change project",
+      "content_type": 31
+    },
+    "model": "auth.permission",
+    "pk": 92
+  },
+  {
+    "fields": {
+      "codename": "delete_project",
+      "name": "Can delete project",
+      "content_type": 31
+    },
+    "model": "auth.permission",
+    "pk": 93
+  },
+  {
+    "fields": {
+      "codename": "add_group",
+      "name": "Can add group",
+      "content_type": 32
+    },
+    "model": "auth.permission",
+    "pk": 94
+  },
+  {
+    "fields": {
+      "codename": "change_group",
+      "name": "Can change group",
+      "content_type": 32
+    },
+    "model": "auth.permission",
+    "pk": 95
+  },
+  {
+    "fields": {
+      "codename": "delete_group",
+      "name": "Can delete group",
+      "content_type": 32
+    },
+    "model": "auth.permission",
+    "pk": 96
+  },
+  {
+    "fields": {
+      "codename": "add_people",
+      "name": "Can add people",
+      "content_type": 33
+    },
+    "model": "auth.permission",
+    "pk": 97
+  },
+  {
+    "fields": {
+      "codename": "change_people",
+      "name": "Can change people",
+      "content_type": 33
+    },
+    "model": "auth.permission",
+    "pk": 98
+  },
+  {
+    "fields": {
+      "codename": "delete_people",
+      "name": "Can delete people",
+      "content_type": 33
+    },
+    "model": "auth.permission",
+    "pk": 99
+  },
+  {
+    "fields": {
+      "codename": "add_worker",
+      "name": "Can add worker",
+      "content_type": 34
+    },
+    "model": "auth.permission",
+    "pk": 100
+  },
+  {
+    "fields": {
+      "codename": "change_worker",
+      "name": "Can change worker",
+      "content_type": 34
+    },
+    "model": "auth.permission",
+    "pk": 101
+  },
+  {
+    "fields": {
+      "codename": "delete_worker",
+      "name": "Can delete worker",
+      "content_type": 34
+    },
+    "model": "auth.permission",
+    "pk": 102
+  },
+  {
+    "fields": {
+      "codename": "add_task",
+      "name": "Can add task",
+      "content_type": 35
+    },
+    "model": "auth.permission",
+    "pk": 103
+  },
+  {
+    "fields": {
+      "codename": "change_task",
+      "name": "Can change task",
+      "content_type": 35
+    },
+    "model": "auth.permission",
+    "pk": 104
+  },
+  {
+    "fields": {
+      "codename": "delete_task",
+      "name": "Can delete task",
+      "content_type": 35
+    },
+    "model": "auth.permission",
+    "pk": 105
+  },
+  {
+    "fields": {
+      "codename": "add_taskworker",
+      "name": "Can add task worker",
+      "content_type": 36
+    },
+    "model": "auth.permission",
+    "pk": 106
+  },
+  {
+    "fields": {
+      "codename": "change_taskworker",
+      "name": "Can change task worker",
+      "content_type": 36
+    },
+    "model": "auth.permission",
+    "pk": 107
+  },
+  {
+    "fields": {
+      "codename": "delete_taskworker",
+      "name": "Can delete task worker",
+      "content_type": 36
+    },
+    "model": "auth.permission",
+    "pk": 108
+  },
+  {
+    "fields": {
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2015-02-20T03:56:44.757Z",
+      "groups": [
+        
+      ],
+      "user_permissions": [
+        
+      ],
+      "password": "pbkdf2_sha256$12000$Qa2jMk7kqeB6$VWYOPa6F\/j8CWjJDFVNIPPzkGK3TsoZ7eJlvKh09N1g=",
+      "email": "eykanal@gmail.com",
+      "date_joined": "2015-02-20T03:56:36.548Z"
+    },
+    "model": "auth.user",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "action_flag": 2,
+      "action_time": "2015-02-20T03:56:51.640Z",
+      "object_repr": "Test-Cras_Amet_Sollicitudin_Ipsum",
+      "object_id": "7",
+      "change_message": "Changed due_date.",
+      "user": 2,
+      "content_type": 35
+    },
+    "model": "admin.logentry",
+    "pk": 14
   }
 ]
