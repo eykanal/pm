@@ -2,9 +2,66 @@
 
 {% block title %}Person Detail - {{ object.name }}{% endblock title %}
 
-{% block content-header %}Person Detail - <b>{{ object.name }}</b>{% endblock content-header %}
+{% block content-header %}Person Detail - <b>{{ person.name }}</b> ({{ person.group.name }}){% endblock content-header %}
 
 {% block content %}
-
+<div class="row">
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-briefcase"></i>
+                <h3 class="box-title">Projects</h3>
+            </div>
+            <div class="box-body">
+                <table class="table">
+                    <tr>
+                        <th class="vcenter">Project</th>
+                        <th class="center vcenter">Lead</th>
+                        <th class="center vcenter vcenter">Team Members</th>
+                    </tr>
+                    {% for worker in person.worker_set.all %}
+                    <tr>
+                        <td>{{ worker.project.name }}</td>
+                        <td class="center">{% if worker.owner %}<i class="fa fa-check"></i>{% else %}&nbsp;{% endif %}</td>
+                        <td>{% for w in worker.project.worker_set.all %}{{ w.person.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-tasks"></i>
+                <h3 class="box-title">Tasks</h3>
+            </div>
+            <div class="box-body">
+                <table class="table">
+                    <tr>
+                        <th class="center vcenter" width="12%">Project</th>
+                        <th class="center vcenter">Task Title & Description</th>
+                        <th class="center vcenter" width="12%">Start</th>
+                        <th class="center vcenter" width="12%">Due</th>
+                        <th class="center vcenter" width="12%">Assigned To...</th>
+                    </tr>
+                    {% for worker in person.worker_set.all %}
+                    {% for t in worker.taskworker_set.all %}
+                    <tr>
+                        <td>{{ t.task.project.name }}</td>
+                        <td><b>{{ t.task.name }}</b> - {{ t.task.description }}</td>
+                        <td class="center">{{ t.task.start_date | date:"M. jS" }}</td>
+                        <td class="center">{{ t.task.due_date | date:"M. jS" }}</td>
+                        <td>{% for w in t.task.taskworker_set.all %}{{ w.worker.person.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
+{% debug %}
 

@@ -1,66 +1,79 @@
 {% extends "pm/base.html" %}
 
-{% block title %}Project Detail - {{ object.name }}{% endblock title %}
+{% block title %}Project Detail - {{ project.name }}{% endblock title %}
 
-{% block content-header %}Project Detail - <b>{{ object.name }}</b>{% endblock content-header %}
+{% block content-header %}Project Detail - <b>{{ project.name }}</b>{% endblock content-header %}
 
 {% block content %}
 <div class="row">
-<div class="col-md-12">
-<div class="project-info" id="project-info-{{ object.id }}">
-    <div class="row" id="{{ object.id }}">
-        <div class="col-md-6 project-name"><h2>{{ object.name }}</h2></div>
-        <div class="col-md-6">
-            <table class="table table-condensed">
-                <tr>
-                    <td>Requester:</td>
-                    <td>{{ object.requester }}</td>
-                </tr>
-                <tr>
-                    <td>Start Date:</td>
-                    <td>{{ object.start_date }}</td>
-                </tr>
-                <tr>
-                    <td>Due Date:</td>
-                    <td>{{ object.due_date }}</td>
-                </tr>
-            </table>
+    <div class="col-md-8">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">Description</h3>
+            </div>
+            <div class="box-body">{{ project.description }}</div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 project-description">
-            <p class="lead">{{ object.description }}</p>
+    <div class="col-md-4">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-list-ul"></i>
+                <h3 class="box-title">Project Details</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-condensed">
+                    <tr>
+                        <td>Requester:</td>
+                        <td>{{ project.requester }}</td>
+                    </tr>
+                    <tr>
+                        <td>Assigned to:</td>
+                        <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td>Start Date:</td>
+                        <td>{{ project.start_date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Due Date:</td>
+                        <td>{{ project.due_date }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12 workers">
-        {% for worker in object.worker_set.all %}
-            <a href="#" class="btn btn-{% if worker.owner %}primary{% else %}default{% endif %}">{{ worker.person.name }}{% if worker.percent_committed <= 100 and worker.percent_committed >= 0 %} ({{ worker.percent_committed }}){% endif %}</a>
-        {% endfor %}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 tasks">
-            <table class="table">
-                <thead>
-                    <tr><th>Name</th><th>Description</th><th>Start Date</th><th>Due Date</th><th>Completed Date</th><th>Assigned To</th></tr>
-                </thead>
-            {% for task in project.task_set.all %}
-                <tbody>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-solid">
+            <div class="box-header">
+                <i class="fa fa-tasks"></i>
+                <h3 class="box-title">Tasks</h3>
+            </div>
+            <div class="box-body">
+                <table class="table">
+                    <tr>
+                        <th class="center vcenter" width="10%">Name</th>
+                        <th class="center vcenter">Description</th>
+                        <th class="center vcenter" width="10%">Start Date</th>
+                        <th class="center vcenter" width="10%">Due Date</th>
+                        <th class="center vcenter" width="10%">Completed Date</th>
+                        <th class="center vcenter" width="10%">Assigned To</th>
+                    </tr>
+                    {% for task in project.task_set.all %}
                     <tr>
                         <td>{{ task.name }}</td>
                         <td>{{ task.description }}</td>
-                        <td>{{ task.start_date }}</td>
-                        <td>{{ task.due_date }}</td>
-                        <td>{{ task.date_completed }}</td>
-                        <td>{% for taskworker in task.taskworker_set.all %}<a href="#" class="btn btn-default">{{ taskworker.worker.person.name }}</a>{% endfor %}</td>
+                        <td class="center">{{ task.start_date }}</td>
+                        <td class="center">{{ task.due_date }}</td>
+                        <td class="center">{{ task.date_completed }}</td>
+                        <td>{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
-                </tbody>
-            {% endfor %}
-            </table>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 {% endblock %}

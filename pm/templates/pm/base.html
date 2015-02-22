@@ -65,7 +65,7 @@
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="treeview">
+                        <li class="treeview{% if project %} active{% endif %}">
                             <a href="#">
                                 <i class="fa fa-list-alt"></i>
                                 <span>Projects</span>
@@ -77,7 +77,7 @@
                             {% endfor %}
                             </ul>
                         </li>
-                        <li class="treeview">
+                        <li class="treeview{% if person %} active{% endif %}">
                             <a href="#">
                                 <i class="fa fa-users"></i>
                                 <span>People</span>

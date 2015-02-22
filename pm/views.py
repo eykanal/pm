@@ -23,10 +23,20 @@ class ProjectDetailView(DetailView):
     model = Project
     template_name = "pm/project_detail.html"
 
+    def get_context_data(self, **kwargs):
+            kwargs['project'] = kwargs['object']
+            del kwargs['object']
+            return super(ProjectDetailView, self).get_context_data(**kwargs)
+
 
 class PersonDetailView(DetailView):
     model = People
     template_name = "pm/person_detail.html"
+
+    def get_context_data(self, **kwargs):
+            kwargs['person'] = kwargs['object']
+            del kwargs['object']
+            return super(PersonDetailView, self).get_context_data(**kwargs)
 
 
 # handle form submission for new project
