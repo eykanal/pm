@@ -9,6 +9,7 @@ class ProjectForm(ModelForm):
         super(ProjectForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = "create_project"
+        self.helper.form_action = "project-new"
         self.helper.add_input(Submit('submit', 'Submit'))
 
     class Meta:

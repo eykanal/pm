@@ -72,6 +72,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
+                                <li><a href="{% url 'project-new' %}"><i class="fa fa-plus-square-o"></i> New project</a></li>
                             {% for project in projects %}
                                 <li><a href="{% url 'project-detail' project.id %}"><i class="fa fa-angle-double-right"></i> {{ project.name|truncatewords:4 }}</a></li>
                             {% endfor %}
@@ -84,7 +85,6 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <!-- TODO: replace with links to userpages -->
                             {% for person in people %}
                                 <li><a href="{% url 'person-detail' person.id %}"><i class="fa fa-angle-double-right"></i> {{ person.name }}</a></li>
                             {% endfor %}

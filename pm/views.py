@@ -55,3 +55,8 @@ class CreateProject(CreateView):
     form_class = ProjectForm
     model = Project
     template_name = "pm/project_new.html"
+
+
+class EditProject(UpdateView):
+    pass
+
