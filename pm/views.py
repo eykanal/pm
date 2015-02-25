@@ -2,6 +2,7 @@ import json
 
 from django.http import JsonResponse
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
+from django.db.models import Q
 from pm.models import Project, People
 from pm.forms import ProjectForm
 
@@ -9,8 +10,8 @@ from pm.forms import ProjectForm
 # template preprocessor function - people & projects always needed for sidebar
 def menu_items(request):
     return {
-        'projects': Project.objects.all(),
-        'people': People.objects.all()
+        'projects': Project.objects.all().order_by('name'),
+        'people': People.objects.filter(Q(group="MAAD") | Q(group="OAR")).order_by('name')
     }
 
 

@@ -1,6 +1,6 @@
 {% extends "pm/base.html" %}
 
-{% block title %}Person Detail - {{ object.name }}{% endblock title %}
+{% block title %}Person Detail - {{ person.name }}{% endblock title %}
 
 {% block content-header %}Person Detail - <b>{{ person.name }}</b> ({{ person.group.name }}){% endblock content-header %}
 
@@ -17,7 +17,7 @@
                     <tr>
                         <th class="vcenter">Project</th>
                         <th class="center vcenter">Lead</th>
-                        <th class="center vcenter vcenter">Team Members</th>
+                        <th class="center vcenter">Team Members</th>
                     </tr>
                     {% for worker in person.worker_set.all %}
                     <tr>

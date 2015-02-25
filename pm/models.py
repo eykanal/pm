@@ -1,15 +1,81 @@
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 from django.db import models
 
 
-class Project(models.Model):
+class Group(models.Model):
+    name = models.CharField(max_length=200, primary_key=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class People(models.Model):
+    name = models.CharField(max_length=200)
+    group = models.ForeignKey(Group)
+
+    class Meta:
+        unique_together = ('name', 'group',)
+
+    def __unicode__(self):
+        return ("%s-%s" % (self.name, self.group.name)).replace(" ", "_")
+
+    def lead_count(self):
+        return self.worker_set.filter(owner=True).count()
+
+    def task_count(self):
+        return TaskWorker.objects.filter(worker__person=self).count()
+
+    def two_wk_task_count(self):
+        return TaskWorker.objects.filter(worker__person=self, task__due_date__range=[
+            date.today(),
+            date.today() + timedelta(14)
+        ]).count()
+
+
+class Program(models.Model):
     name = models.CharField(max_length=500)
-    requester = models.CharField(max_length=500)
+    description = models.TextField()
+    date_added = models.DateField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Project(models.Model):
+    HIGH = 'HI'
+    STANDARD = 'ST'
+    LOW = 'LO'
+    PRIORITY_CHOICES = (
+        (HIGH, 'High'),
+        (STANDARD, 'Standard'),
+        (LOW, 'Low')
+    )
+
+    ACTIVE = 'A'
+    ON_HOLD = 'O'
+    WARRANTY = 'W'
+    MAINTENANCE = 'M'
+    COMPLETED = 'C'
+    STATUS_CHOICES = (
+        (ACTIVE, 'Active'),
+        (ON_HOLD, 'On hold'),
+        (WARRANTY, 'Warranty'),
+        (MAINTENANCE, 'Maintenance'),
+        (COMPLETED, 'Completed')
+    )
+
+    name = models.CharField(max_length=500)
+    requester = models.ForeignKey(People, related_name="person_requester")
+    project_manager = models.ForeignKey(People, related_name="person_project_manager")
     description = models.TextField()
     date_added = models.DateField(auto_now_add=True)
     start_date = models.DateField()
     due_date = models.DateField(null=True, blank=True)
     date_complete = models.DateField(null=True, blank=True)
+    sharepoint_ticket = models.URLField(null=True, blank=True)
+    priority = models.CharField(null=True, choices=PRIORITY_CHOICES, default=STANDARD, max_length=2)
+    status = models.CharField(choices=STATUS_CHOICES, default=ACTIVE, max_length=1)
+    program = models.ForeignKey(Program)
 
     def __unicode__(self):
         return self.name
@@ -32,11 +98,13 @@ class Project(models.Model):
             due_dates = []
             for task in self.task_set.all():
                 if task.due_date is None:
-                    date = datetime.date(1904, 1, 1)
+                    continue
                 else:
-                    date = task.due_date
-                due_dates.append(date)
-            return max(due_dates)
+                    due_dates.append(task.due_date)
+            if len(due_dates) == 0:
+                return "No estimate"
+            else:
+                return max(due_dates)
     
     def next_tasks(self):
         """
@@ -47,36 +115,6 @@ class Project(models.Model):
             return due_date_list
         next_due_date = min(due_date_list)['due_date'] 
         return self.task_set.filter(due_date=next_due_date)
-
-
-class Group(models.Model):
-    name = models.CharField(max_length=200, primary_key=True)
-
-    def __unicode__(self):
-        return self.name
-
-
-class People(models.Model):
-    name = models.CharField(max_length=200)
-    group = models.ForeignKey(Group)
-
-    class Meta:
-        unique_together = ('name', 'group',)
-
-    def lead_count(self):
-        return self.worker_set.filter(owner=True).count()
-
-    def task_count(self):
-        return TaskWorker.objects.filter(worker__person=self).count()
-
-    def two_wk_task_count(self):
-        return TaskWorker.objects.filter(worker__person=self, task__due_date__range=[
-            date.today(),
-            date.today() + timedelta(14)
-        ]).count()
-
-    def __unicode__(self):
-        return self.name
 
 
 class Worker(models.Model):
@@ -96,6 +134,19 @@ class Worker(models.Model):
 
 
 class Task(models.Model):
+    QUEUED = 'Q'
+    ACTIVE = 'A'
+    ON_HOLD = 'O'
+    WAITING = 'W'
+    COMPLETED = 'C'
+    STATUS_CHOICES = (
+        (QUEUED, 'Queued'),
+        (ACTIVE, 'Active'),
+        (ON_HOLD, 'On hold'),
+        (WAITING, 'Waiting on customer'),
+        (COMPLETED, 'Completed')
+    )
+
     project = models.ForeignKey(Project)
     name = models.CharField(max_length=500)
     description = models.TextField()
@@ -103,12 +154,24 @@ class Task(models.Model):
     start_date = models.DateField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
     date_complete = models.DateField(null=True, blank=True)
+    status = models.CharField(choices=STATUS_CHOICES, default=QUEUED, max_length=1)
 
     class Meta:
         unique_together = ('name', 'project',)
 
     def __unicode__(self):
         return ("%s-%s" % (self.project.name, self.name)).replace(" ", "_")
+
+
+class TaskDependency(models.Model):
+    blocking_task = models.ForeignKey(Task, related_name="blocking_task")
+    blocked_task = models.ForeignKey(Task, related_name="blocked_task")
+
+    class Meta:
+        unique_together = ('blocking_task', 'blocked_task',)
+
+    def __unicode__(self):
+        return ("%s-%s" % (self.blocking_task, self.blocked_task)).replace(" ", "_")
 
 
 class TaskWorker(models.Model):

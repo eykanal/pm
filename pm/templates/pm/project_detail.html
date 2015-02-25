@@ -24,8 +24,12 @@
             <div class="box-body">
                 <table class="table table-condensed">
                     <tr>
+                        <td>ID:</td>
+                        <td>{{ project.id | stringformat:"04d" }}</td>
+                    </tr>
+                    <tr>
                         <td>Requester:</td>
-                        <td>{{ project.requester }}</td>
+                        <td>{{ project.requester.name }}</td>
                     </tr>
                     <tr>
                         <td>Assigned to:</td>
