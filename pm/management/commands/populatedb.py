@@ -20,11 +20,11 @@ class Command(BaseCommand):
 
         self.stdout.write("Added default project")
 
-        gr['maad'] = Group.objects.create(name="maad")
-        gr['oar'] = Group.objects.create(name="oar")
-        gr['ods'] = Group.objects.create(name="ods")
+        gr['maad'] = Group.objects.create(name="MAAD")
+        gr['oar'] = Group.objects.create(name="OAR")
+        gr['ods'] = Group.objects.create(name="ODS")
 
-        self.stdout.write("Added gr['ods'] groups")
+        self.stdout.write("Added ods groups")
 
         People.objects.create(name="Anthony Garuccio", group=gr['maad'])
         pe['tom'] = People.objects.create(name="Tom Keane", group=gr['maad'])
@@ -49,7 +49,7 @@ class Command(BaseCommand):
         People.objects.create(name="Sharon Kilvington", group=gr['oar'])
         People.objects.create(name="Scott Kinross", group=gr['ods'])
         People.objects.create(name="Charlie Kannair", group=gr['ods'])
-        self.stdout.write("Added gr['ods'] users")
+        self.stdout.write("Added ods users")
 
         gr['s'] = Group.objects.create(name="Service")
         gr['cc'] = Group.objects.create(name="Command Center")
@@ -71,10 +71,10 @@ class Command(BaseCommand):
             program=prg['none'],
         )
         pr['pg'] = Project.objects.create(
-            name="PG dashbgr['oar']d",
+            name="PG dashboard",
             requester=pe['melissa'],
             project_manager=pe['elli'],
-            description="Create a dashbgr['oar']d containing all PG metrics. Should show both month-to-date and for arbitrary historical date ranges. Also should contain detail reporting and executive summaries.",
+            description="Create a dashboard containing all PG metrics. Should show both month-to-date and for arbitrary historical date ranges. Also should contain detail reporting and executive summaries.",
             start_date=date(2014, 7, 1),
             program=prg['cc'],
         )
@@ -127,6 +127,7 @@ class Command(BaseCommand):
         w['psr_tom'] = Worker.objects.create(project=pr['psr'], person=pe['tom'])
         w['pg_jeff'] = Worker.objects.create(project=pr['pg'], person=pe['jeff'])
         w['pg_glenn'] = Worker.objects.create(project=pr['pg'], person=pe['glenn'])
+        w['qa_glenn'] = Worker.objects.create(project=pr['qa'], person=pe['glenn'])
         self.stdout.write("Created workers")
 
         TaskWorker.objects.create(task=t[1], worker=w['psr_tom'])
