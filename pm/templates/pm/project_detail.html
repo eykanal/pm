@@ -48,6 +48,18 @@
         </div>
     </div>
 </div>
+<div class="row new-task">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title">New Task</h3>
+            </div>
+            <div class="box-body">
+                Here's a few things to think about.
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-solid">
@@ -80,4 +92,21 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+"use strict";
+
+$(document).keydown(function(e) {
+    // "n" or "N" opens new task window
+    if(e.which == 78) {
+        $(".new-task").show();
+    }
+    // "esc" hides new task window
+    if(e.which == 27) {
+        $(".new-task").hide();
+    }
+});
+</script>
 {% endblock %}

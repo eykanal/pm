@@ -16,3 +16,6 @@ class ProjectForm(ModelForm):
         model = Project
         fields = ['name', 'requester', 'description', 'start_date', 'due_date']
 
+
+class TaskForm(ModelForm):
+    pass
