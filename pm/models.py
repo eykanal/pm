@@ -17,7 +17,7 @@ class People(models.Model):
         unique_together = ('name', 'group',)
 
     def __unicode__(self):
-        return ("%s-%s" % (self.name, self.group.name)).replace(" ", "_")
+        return "%s (%s)" % (self.name, self.group.name)
 
     def lead_count(self):
         return self.worker_set.filter(owner=True).count()
@@ -116,6 +116,32 @@ class Project(models.Model):
         next_due_date = min(due_date_list)['due_date'] 
         return self.task_set.filter(due_date=next_due_date)
 
+    def ordered_tasks(self):
+        pass
+        '''
+        pull all tasks for the project
+        task_set = empty
+        create set of all unblocked tasks, add to task_set
+        recurse over all sets within task_set:
+            recursively find tasks that are blocked by it
+            for each task blocked:
+                if the blocked set is also blocked by other tasks:
+                    create a new set of all tasks with a similar blocking pattern
+                    add set to task_set
+
+        iteration function:
+        for t_blocking in in task_set:
+            create set t_blocked by t_blocking
+            for each t in t_blocked:
+                if set t_blocked > 1 (i.e., if blocked by more than just t_blocking):
+                    create set of all tasks with similar blocked pattern (practically,
+                    iterate over all tasks in that set, find those with similar blocked
+                    pattern)
+                    add set to end of task_set
+                else:
+
+        '''
+
 
 class Worker(models.Model):
     project = models.ForeignKey(Project)
@@ -130,7 +156,7 @@ class Worker(models.Model):
         unique_together = ('project', 'person',)
 
     def __unicode__(self):
-        return ("%s-%s" % (self.person.name, self.project.name)).replace(" ", "_")
+        return "%s (%s) - %s" % (self.person.name, self.person.group.name, self.project.name)
 
 
 class Task(models.Model):
@@ -160,7 +186,7 @@ class Task(models.Model):
         unique_together = ('name', 'project',)
 
     def __unicode__(self):
-        return ("%s-%s" % (self.project.name, self.name)).replace(" ", "_")
+        return "%s - %s" % (self.project.name, self.name)
 
 
 class TaskDependency(models.Model):
@@ -171,7 +197,7 @@ class TaskDependency(models.Model):
         unique_together = ('blocking_task', 'blocked_task',)
 
     def __unicode__(self):
-        return ("%s-%s" % (self.blocking_task, self.blocked_task)).replace(" ", "_")
+        return "%s - %s" % (self.blocking_task, self.blocked_task)
 
 
 class TaskWorker(models.Model):
@@ -182,4 +208,4 @@ class TaskWorker(models.Model):
         unique_together = ('task', 'worker',)
 
     def __unicode__(self):
-        return ("%s-%s-%s" % (self.worker.person.name, self.worker.project.name, self.task.name)).replace(" ", "_")
+        return "%s (%s) - %s - %s" % (self.worker.person.name, self.worker.person.group.name, self.worker.project.name, self.task.name)

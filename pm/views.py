@@ -3,8 +3,8 @@ import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django.db.models import Q
-from pm.models import Project, People
-from pm.forms import ProjectForm
+from pm.models import Project, People, TaskDependency
+from pm.forms import ProjectForm, TaskForm
 
 
 # template preprocessor function - people & projects always needed for sidebar
@@ -27,6 +27,7 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
             kwargs['project'] = kwargs['object']
             del kwargs['object']
+            kwargs['taskform'] = TaskForm(project_id=self.kwargs['pk'])
             return super(ProjectDetailView, self).get_context_data(**kwargs)
 
 
@@ -50,6 +51,13 @@ def create_project(request):
         else:
             form.errors["result"] = "fail"
             return JsonResponse(form.errors)
+
+
+# create new task via AJAX
+def create_task(request):
+    print "hello"
+    print request.POST
+    pass
 
 
 class CreateProject(CreateView):
