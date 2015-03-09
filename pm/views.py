@@ -3,8 +3,11 @@ import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django.db.models import Q
+from django.template import RequestContext
 from pm.models import Project, People, TaskDependency
 from pm.forms import ProjectForm, TaskForm
+from jsonview.decorators import json_view
+from crispy_forms.utils import render_crispy_form
 
 
 # template preprocessor function - people & projects always needed for sidebar
@@ -27,7 +30,7 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
             kwargs['project'] = kwargs['object']
             del kwargs['object']
-            kwargs['taskform'] = TaskForm(project_id=self.kwargs['pk'])
+            kwargs['taskform'] = TaskForm(project_id=self.kwargs['pk'], initial={'project': self.kwargs['pk']})
             return super(ProjectDetailView, self).get_context_data(**kwargs)
 
 
@@ -54,10 +57,17 @@ def create_project(request):
 
 
 # create new task via AJAX
+@json_view
 def create_task(request):
-    print "hello"
-    print request.POST
-    pass
+    pk = request.POST['project']
+    form = TaskForm(request.POST, project_id=pk)
+    if TaskForm(request.POST, project_id=pk).is_valid():
+        # TODO: actually save the task, taskworkers, and taskdependencies to the database
+        return {'success': True}
+
+    form_html = render_crispy_form(form, context=RequestContext(request))
+    return {'success': False, 'form_html': form_html}
+
 
 
 class CreateProject(CreateView):

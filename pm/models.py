@@ -186,7 +186,7 @@ class Task(models.Model):
         unique_together = ('name', 'project',)
 
     def __unicode__(self):
-        return "%s - %s" % (self.project.name, self.name)
+        return "%s - %s" % (self.name, self.project.name)
 
 
 class TaskDependency(models.Model):

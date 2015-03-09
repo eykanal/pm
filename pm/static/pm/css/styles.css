@@ -2,3 +2,6 @@ ol { padding-left: 15px; margin: 0px; }
 table td.center, table th.center { text-align: center; }
 table td.vcenter, table th.vcenter { vertical-align: middle; }
 .new-task { display: none; }
+.new-task .alert { display: none; }
+/* remove "hold down control" message that crispy_forms automatically generates */
+#create-task .controls p.help-block { display: none; }

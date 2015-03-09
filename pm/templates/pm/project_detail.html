@@ -50,8 +50,17 @@
     </div>
 </div>
 <div class="row new-task">
+    <div class="alert alert-danger alert-dismissable">
+        <h4>Error!</h4>
+        <p>An error was encountered while saving the form. Please try again shortly.</p>
+    </div>
+    <div class="alert alert-success alert-dismissable">
+        <i class="fa fa-check"></i>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <p>Task successfully entered!</p>
+    </div>
     <div class="col-md-12">
-        <div class="box box-info">
+        <div class="box box-solid box-info">
             <div class="box-header">
                 <h3 class="box-title">New Task</h3>
             </div>
@@ -135,23 +144,32 @@ $.ajaxSetup({
 // ### END AJAX HEADER CONTENT
 
 // new task
-$('#create-task').on('submit', function(event){
+function process_submit (event) {
     event.preventDefault();
 
     $.ajax({
-            url: "/task/new",
+            url: "{% url 'task-new' %}",
             type: "POST",
             dataType: "json",
             data: $('#create-task').serialize(),
-            success: function(json) {
-                $('#create-task').trigger('reset'); // remove the value from the input
-                $('#newProj').modal('hide');
+            success: function(data) {
+                if(!(data['success'])) {
+                    $('#create-task').replaceWith(data['form_html']);
+                    $('#create-task').on('submit', process_submit);  // need to bind the function to the new element
+                } else {
+                    $('#create-task').hide();
+                    $('.new-task .alert-success').show();
+                    $('#create-task').trigger('reset'); // remove the value from the input
+                }
             },
             error: function(xhr,errmsg,err) {
-                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg + "<a href='#' class='close'>&times;</a></div>");
+                $('.new-task .alert-error').show();
                 console.log(xhr.status + ": " + xhr.responseText);
             }
         });
-    });
+};
+
+$('#create-task').on('submit', process_submit);
+
 </script>
 {% endblock %}
