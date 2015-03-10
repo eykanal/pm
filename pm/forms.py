@@ -30,7 +30,7 @@ class TaskForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.project_id = kwargs.pop('project_id')
         super(TaskForm, self).__init__(*args, **kwargs)
-        self.fields['worker'].queryset = People.objects.filter(worker__project=self.project_id)
+        self.fields['worker'].queryset = Worker.objects.filter(project=self.project_id)
         self.fields['blocked_by'].queryset = Task.objects.filter(project=self.project_id)
 
         self.helper = FormHelper()

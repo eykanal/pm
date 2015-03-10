@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django.db.models import Q
 from django.template import RequestContext
-from pm.models import Project, People, TaskDependency
+from pm.models import Project, People, Task, Worker, TaskWorker, TaskDependency
 from pm.forms import ProjectForm, TaskForm
 from jsonview.decorators import json_view
 from crispy_forms.utils import render_crispy_form
@@ -61,13 +61,39 @@ def create_project(request):
 def create_task(request):
     pk = request.POST['project']
     form = TaskForm(request.POST, project_id=pk)
-    if TaskForm(request.POST, project_id=pk).is_valid():
-        # TODO: actually save the task, taskworkers, and taskdependencies to the database
+    if form.is_valid():
+
+        # save task itself
+        t = Task(
+            project=form.cleaned_data['project'],
+            name=form.cleaned_data['name'],
+            description=form.cleaned_data['description'],
+            start_date=form.cleaned_data['start_date'],
+            due_date=form.cleaned_data['due_date'],
+            status=form.cleaned_data['status'])
+        t.save()
+
+        # save workers
+        for w in form.cleaned_data['worker']:
+            print w
+            tw = TaskWorker(
+                task=Task.objects.get(pk=t.id),
+                worker=w
+            )
+            tw.save()
+
+        # save dependencies
+        for d in form.cleaned_data['blocked_by']:
+            td = TaskDependency(
+                blocking_task=d,
+                blocked_task=Task.objects.get(pk=t.id)
+            )
+            td.save()
+
         return {'success': True}
 
     form_html = render_crispy_form(form, context=RequestContext(request))
     return {'success': False, 'form_html': form_html}
-
 
 
 class CreateProject(CreateView):

@@ -112,6 +112,8 @@ $(document).keydown(function(e) {
     // "n" or "N" opens new task window
     if(e.which == 78) {
         $(".new-task").show();
+        $(".new-task .box").show();
+        $(".new-task .alert").hide();
     }
     // "esc" hides new task window
     if(e.which == 27) {
@@ -157,7 +159,7 @@ function process_submit (event) {
                     $('#create-task').replaceWith(data['form_html']);
                     $('#create-task').on('submit', process_submit);  // need to bind the function to the new element
                 } else {
-                    $('#create-task').hide();
+                    $('.new-task .box').hide();
                     $('.new-task .alert-success').show();
                     $('#create-task').trigger('reset'); // remove the value from the input
                 }
