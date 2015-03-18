@@ -150,7 +150,7 @@ function process_submit (event) {
     event.preventDefault();
 
     $.ajax({
-            url: "{% url 'task-new' %}",
+            url: "{% url 'pm:task-new' %}",
             type: "POST",
             dataType: "json",
             data: $('#create-task').serialize(),
