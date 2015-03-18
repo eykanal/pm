@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: django-projManager
-Version: 0.1
+Version: 0.1.2
 Summary: A Django app for project management.
 Home-page: UNKNOWN
 Author: Eliezer Kanal
@@ -24,7 +24,7 @@ Description: =====
         
         2. Include the pm URLconf in your project urls.py like this::
         
-        	url(r'^pm/', include('pm.urls')),
+        	url(r'^pm/', include('pm.urls', namespace='pm')),
         
         3. Run `python manage.py migrate` to create the pm models.
         
@@ -35,11 +35,10 @@ Platform: UNKNOWN
 Classifier: Environment :: Web Environment
 Classifier: Framework :: Django
 Classifier: Intended Audience :: Developers
-Classifier: License :: OSI Approved :: GPL License
+Classifier: License :: OSI Approved :: BSD License
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
-Classifier: Programming Language :: Python :: 3
-Classifier: Programming Language :: Python :: 3.2
-Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
 Classifier: Topic :: Internet :: WWW/HTTP
 Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content

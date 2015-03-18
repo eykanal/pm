@@ -16,7 +16,7 @@ Quick start
 
 2. Include the pm URLconf in your project urls.py like this::
 
-	url(r'^pm/', include('pm.urls')),
+	url(r'^pm/', include('pm.urls', namespace='pm')),
 
 3. Run `python manage.py migrate` to create the pm models.
 

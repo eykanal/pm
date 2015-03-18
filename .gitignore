@@ -3,3 +3,4 @@
 *.sublime-workspace
 *.pyc
 *.idea
+dist/*.tar.gz
