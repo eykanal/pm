@@ -11,10 +11,37 @@ class ProjectForm(forms.ModelForm):
         self.helper.form_id = "create_project"
         self.helper.form_action = "project-new"
         self.helper.add_input(Submit('submit', 'Submit'))
+        self.helper.layout = Layout(
+            Div(
+                Div(Field('name'), css_class='col-sm-6'),
+                Div(Field('requester'), css_class='col-sm-3'),
+                Div(Field('project_manager'), css_class='col-sm-3'),
+                css_class='row',
+            ),
+            Div(
+                Div(Field('description'), css_class='col-sm-8'),
+                Div(
+                    Div(
+                        Div(Field('start_date'), css_class='col-sm-12 datemask'),
+                        Div(Field('due_date'), css_class='col-sm-12 datemask'),
+                        Div(Field('date_complete'), css_class='col-sm-12 datemask'),
+                        css_class='row',
+                    ),
+                    css_class='col-sm-4',
+                ),
+                css_class='row',
+            ),
+            Div(
+                Div(Field('program'), css_class='col-sm-2'),
+                Div(Field('status'), css_class='col-sm-2'),
+                Div(Field('priority'), css_class='col-sm-2'),
+                Div(Field('sharepoint_ticket'), css_class='col-sm-6'),
+                css_class='row',
+            )
+        )
 
     class Meta:
         model = Project
-        fields = ['name', 'requester', 'description', 'start_date', 'due_date']
 
 
 class TaskForm(forms.Form):

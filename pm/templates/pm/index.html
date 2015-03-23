@@ -23,7 +23,7 @@
                     </tr>
                     {% for project in projects %}
                     <tr>
-                        <td>{{ project.name }}</td>
+                        <td><a href="{% url 'pm:project-detail' project.id %}"></a>{{ project.name }}</td>
                         <td>{{ project.requester.name }} ({{ project.requester.group.name }})</td>
                         <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                         <td>{{ project.completed_tasks.count }} - {{ project.task_set.all.count }}</td>
@@ -52,7 +52,7 @@
                     </tr>
                     {% for person in people %}
                     <tr>
-                        <td>{{ person.name }}</td>
+                        <td><a href="{% url 'pm:person-detail' person.id %}"></a>{{ person.name }}</td>
                         <td>{% if person.worker_set.count > 3 %}<span class="text-{% if person.worker_set.count > 5 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.worker_set.count }}{% if person.worker_set.count > 3 %}</span>{% endif %} - {% if person.lead_count > 1 %}<span class="text-{% if person.lead_count > 2 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.lead_count }}{% if person.lead_count > 1 %}</span>{% endif %}</td>
                         <td>{% if person.task_count > 7 %}<span class="text-{% if person.task_count > 11 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.task_count }}{% if person.task_count > 8 %}</span>{% endif %} - {% if person.two_wk_task_count > 4 %}<span class="text-{% if person.two_wk_task_count > 6 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.two_wk_task_count }}{% if person.two_wk_task_count > 4 %}</span>{% endif %}</td>
                     </tr>
@@ -79,3 +79,11 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block custom_js %}
+$('tr').click(function() {
+    window.location = $(this).find('a').attr('href');
+}).hover(function() {
+    $(this).toggleClass('hover');
+});
+{% endblock custom_js %}
