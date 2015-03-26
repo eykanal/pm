@@ -3,8 +3,9 @@ import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django.db.models import Q
+from django.shortcuts import render_to_response
 from django.template import RequestContext
-from pm.models import Project, People, Task, Worker, TaskWorker, TaskDependency
+from pm.models import Program, Project, People, Task, Worker, TaskWorker, TaskDependency
 from pm.forms import ProjectForm, TaskForm
 from jsonview.decorators import json_view
 from crispy_forms.utils import render_crispy_form
@@ -96,10 +97,23 @@ def create_task(request):
     return {'success': False, 'form_html': form_html}
 
 
-class CreateProject(CreateView):
-    form_class = ProjectForm
-    model = Project
-    template_name = "pm/project_new.html"
+def create_project(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            # save project
+            # save workers
+            # return to project page
+            return Index()
+        else:
+            # handle errors
+            pass
+    else:
+        form = ProjectForm(initial={'program': Program.objects.get(name="None")})
+
+    return render_to_response("pm/project_new.html", {'form': form}, context)
 
 
 class EditProject(UpdateView):

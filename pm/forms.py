@@ -1,15 +1,27 @@
 from django import forms
-from pm.models import Project, People, Task, Worker, TaskDependency
+from pm.models import Program, Project, People, Task, Worker, TaskDependency
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Field
 
 
-class ProjectForm(forms.ModelForm):
+class ProjectForm(forms.Form):
+    name = forms.CharField(max_length=500)
+    requester = forms.ModelChoiceField(People.objects.all())
+    project_manager = forms.ModelChoiceField(People.objects.all())
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 10, 'cols': 60}))
+    start_date = forms.DateField()
+    due_date = forms.DateField(required=False)
+    date_complete = forms.DateField(required=False)
+    sharepoint_ticket = forms.URLField(required=False)
+    priority = forms.ChoiceField(choices=Project.PRIORITY_CHOICES)
+    status = forms.ChoiceField(choices=Project.STATUS_CHOICES)
+    program = forms.ModelChoiceField(Program.objects.all(), empty_label=None)
+
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = "create_project"
-        self.helper.form_action = "project-new"
+        self.helper.form_action = "pm:project-new"
         self.helper.add_input(Submit('submit', 'Submit'))
         self.helper.layout = Layout(
             Div(
@@ -23,7 +35,13 @@ class ProjectForm(forms.ModelForm):
                 Div(
                     Div(
                         Div(Field('start_date'), css_class='col-sm-12 datemask'),
+                        css_class='row',
+                    ),
+                    Div(
                         Div(Field('due_date'), css_class='col-sm-12 datemask'),
+                        css_class='row',
+                    ),
+                    Div(
                         Div(Field('date_complete'), css_class='col-sm-12 datemask'),
                         css_class='row',
                     ),
@@ -39,9 +57,6 @@ class ProjectForm(forms.ModelForm):
                 css_class='row',
             )
         )
-
-    class Meta:
-        model = Project
 
 
 class TaskForm(forms.Form):

@@ -6,7 +6,7 @@ from views import *
 urlpatterns = patterns(
     '',
     url(r'^$', Index.as_view(), name='index'),
-    url(r'^project/new', CreateProject.as_view(), name='project-new'),
+    url(r'^project/new', create_project, name='project-new'),
     url(r'^project/(?P<pk>\d+)/edit', EditProject.as_view(), name='project-edit'),
     url(r'^project/(?P<pk>\d+)$', ProjectDetailView.as_view(), name='project-detail'),
     url(r'^person/(?P<pk>\d+)$', PersonDetailView.as_view(), name='person-detail'),
