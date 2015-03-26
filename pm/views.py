@@ -13,11 +13,12 @@ from crispy_forms.utils import render_crispy_form
 
 # template preprocessor function - people & projects always needed for sidebar
 def menu_items(request):
-    return {
-        'projects': Project.objects.all().order_by('name'),
-        'people': People.objects.filter(Q(group="MAAD") | Q(group="OAR")).order_by('name')
-    }
-
+    if 'pm' in request.resolver_match.namespaces:
+        return {
+            'projects': Project.objects.all().order_by('name'),
+            'people': People.objects.filter(Q(group="MAAD") | Q(group="OAR")).order_by('name')
+        }
+    return {}
 
 # Main view
 class Index(TemplateView):
