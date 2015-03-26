@@ -7,11 +7,19 @@ ProjManager is a project management application for management of projects for s
 Quick start
 -----
 
-1. Add 'pm' ot your INSTALLED_APPS settings like this::
+1. Add 'pm' and 'crispy_forms' to your INSTALLED_APPS settings like this::
 
     INSTALLED_APPS = (
         ...
         'pm',
+        'crispy_forms',
+    )
+
+   and add 'pm.views.menu_items' to TEMPLATE_CONTEXT_PROCESSORS::
+
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        ...
+        "pm.views.menu_items",
     )
 
 2. Include the pm URLconf in your project urls.py like this::
