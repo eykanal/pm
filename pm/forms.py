@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models import Q
 from pm.models import Program, Project, People, Task, Worker, TaskDependency
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Field
@@ -16,6 +17,7 @@ class ProjectForm(forms.Form):
     priority = forms.ChoiceField(choices=Project.PRIORITY_CHOICES)
     status = forms.ChoiceField(choices=Project.STATUS_CHOICES)
     program = forms.ModelChoiceField(Program.objects.all(), empty_label=None)
+    workers = forms.ModelMultipleChoiceField(queryset=People.objects.filter(Q(group="MAAD") | Q(group="OAR")).order_by('name'))
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
@@ -31,29 +33,30 @@ class ProjectForm(forms.Form):
                 css_class='row',
             ),
             Div(
-                Div(Field('description'), css_class='col-sm-8'),
+                Div(Field('description'), css_class='col-sm-6'),
                 Div(
                     Div(
-                        Div(Field('start_date'), css_class='col-sm-12 datemask'),
+                        Div(Field('start_date'), css_class='col-sm-6 datemask'),
+                        Div(Field('program'), css_class='col-sm-6'),
                         css_class='row',
                     ),
                     Div(
-                        Div(Field('due_date'), css_class='col-sm-12 datemask'),
+                        Div(Field('due_date'), css_class='col-sm-6 datemask'),
+                        Div(Field('status'), css_class='col-sm-6'),
                         css_class='row',
                     ),
                     Div(
-                        Div(Field('date_complete'), css_class='col-sm-12 datemask'),
+                        Div(Field('date_complete'), css_class='col-sm-6 datemask'),
+                        Div(Field('priority'), css_class='col-sm-6'),
                         css_class='row',
                     ),
-                    css_class='col-sm-4',
+                    css_class='col-sm-6',
                 ),
                 css_class='row',
             ),
             Div(
-                Div(Field('program'), css_class='col-sm-2'),
-                Div(Field('status'), css_class='col-sm-2'),
-                Div(Field('priority'), css_class='col-sm-2'),
                 Div(Field('sharepoint_ticket'), css_class='col-sm-6'),
+                Div(Field('workers'), css_class='col-sm-6'),
                 css_class='row',
             )
         )
@@ -80,7 +83,7 @@ class TaskForm(forms.Form):
         self.helper.label_class = "col-md-3"
         self.helper.field_class = "col-md-9"
         self.helper.form_id = "create-task"
-        self.helper.form_action = "task-new"
+        self.helper.form_action = "pm:task-new"
         self.helper.add_input(Submit('submit', 'Submit'))
         self.helper.layout = Layout(
             Div(

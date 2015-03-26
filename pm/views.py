@@ -45,18 +45,6 @@ class PersonDetailView(DetailView):
             return super(PersonDetailView, self).get_context_data(**kwargs)
 
 
-# handle form submission for new project
-def create_project(request):
-    if request.method == "POST":
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({"result": "success"})
-        else:
-            form.errors["result"] = "fail"
-            return JsonResponse(form.errors)
-
-
 # create new task via AJAX
 @json_view
 def create_task(request):
@@ -103,12 +91,18 @@ def create_project(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
+            print form.cleaned_data
+            p = Project(
+                name=form.cleaned_data['name'],
+
+            )
             # save project
             # save workers
             # return to project page
             return Index()
         else:
             # handle errors
+            print form.cleaned_data
             pass
     else:
         form = ProjectForm(initial={'program': Program.objects.get(name="None")})
@@ -118,4 +112,3 @@ def create_project(request):
 
 class EditProject(UpdateView):
     pass
-

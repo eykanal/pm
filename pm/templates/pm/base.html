@@ -12,15 +12,9 @@
         <link href="{% static 'pm/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'pm/css/ionicons.min.css' %}" rel="stylesheet" type="text/css" />
         <link href="{% static 'pm/css/AdminLTE.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'pm/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
 		<link href="{% static 'pm/css/styles.css' %}" rel="stylesheet" type="text/css" />
         {% block custom_css %}{% endblock %}
-
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script type="text/javascript" src="{% static 'pm/js/html5shiv.min.js' %}"></script>
-			<script type="text/javascript" src="{% static 'pm/js/respond.min.js' %}"></script>
-		<![endif]-->
 	</head>
 	<body class="skin-blue">
         <!-- top row header -->
@@ -112,6 +106,13 @@
 		<script type="text/javascript" src="{% static 'pm/js/custom.js' %}"></script>
         <script type="text/javascript" src="{% static 'pm/js/AdminLTE.js' %}"></script>
         <script type="text/javascript" src="{% static 'pm/js/jquery.inputmask.bundle.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'pm/js/select2.js' %}"></script>
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="{% static 'pm/js/html5shiv.min.js' %}"></script>
+			<script type="text/javascript" src="{% static 'pm/js/respond.min.js' %}"></script>
+		<![endif]-->
         <script type="text/javascript">{% block custom_js %}{% endblock %}</script>
 	</body>
 </html>
