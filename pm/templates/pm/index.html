@@ -24,8 +24,8 @@
                     {% for project in projects %}
                     <tr>
                         <td><a href="{% url 'pm:project-detail' project.id %}"></a>{{ project.name }}</td>
-                        <td>{{ project.requester.name }} ({{ project.requester.group.name }})</td>
-                        <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td>{{ project.requester.full_name }} ({{ project.requester.group.name }})</td>
+                        <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.full_name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                         <td>{{ project.completed_tasks.count }} - {{ project.task_set.all.count }}</td>
                         <td>{% if project.next_tasks.count == 1 %}{% for task in project.next_tasks %}{{ task.name }} ({% if task.due_date = None %}<span class="text-yellow">No due date</span>{% else %}{{ task.due_date | default_if_none:"<span class='text-yellow'>No due date</span>" }}{% endif %}){% endfor %}{% elif project.next_tasks.count == 0 %}<i class="text-yellow">No upcoming tasks defined</i>{% else %}<ol>{% for task in project.next_tasks %}<li>{{ task.name }} ({{ task.due_date }})</li>{% endfor %}</ol>{% endif %}</td>
                         <td>{{ project.est_completion_date }}</td>
@@ -52,7 +52,7 @@
                     </tr>
                     {% for person in people %}
                     <tr>
-                        <td><a href="{% url 'pm:person-detail' person.id %}"></a>{{ person.name }}</td>
+                        <td><a href="{% url 'pm:person-detail' person.id %}"></a>{{ person.full_name }}</td>
                         <td>{% if person.worker_set.count > 3 %}<span class="text-{% if person.worker_set.count > 5 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.worker_set.count }}{% if person.worker_set.count > 3 %}</span>{% endif %} - {% if person.lead_count > 1 %}<span class="text-{% if person.lead_count > 2 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.lead_count }}{% if person.lead_count > 1 %}</span>{% endif %}</td>
                         <td>{% if person.task_count > 7 %}<span class="text-{% if person.task_count > 11 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.task_count }}{% if person.task_count > 8 %}</span>{% endif %} - {% if person.two_wk_task_count > 4 %}<span class="text-{% if person.two_wk_task_count > 6 %}red{% else %}yellow{% endif %}">{% endif %}{{ person.two_wk_task_count }}{% if person.two_wk_task_count > 4 %}</span>{% endif %}</td>
                     </tr>

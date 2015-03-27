@@ -25,6 +25,9 @@ class People(models.Model):
     def __unicode__(self):
         return "%s %s (%s)" % (self.name.first_name, self.name.last_name, self.group.name)
 
+    def full_name(self):
+        return "%s %s" %(self.name.first_name, self.name.last_name)
+    
     def lead_count(self):
         return self.worker_set.filter(owner=True).count()
 
