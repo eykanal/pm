@@ -20,6 +20,7 @@ def menu_items(request):
         }
     return {}
 
+
 # Main view
 class Index(TemplateView):
     template_name = "pm/index.html"

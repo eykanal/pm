@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from django.conf import settings
 from django.db import models
 
 
@@ -10,7 +11,8 @@ class Group(models.Model):
 
 
 class People(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.OneToOneField(settings.AUTH_USER_MODEL)
+    boss = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='boss_of', null=True, blank=True)
     group = models.ForeignKey(Group)
 
     class Meta:
@@ -67,6 +69,7 @@ class Project(models.Model):
     name = models.CharField(max_length=500)
     requester = models.ForeignKey(People, related_name="person_requester")
     project_manager = models.ForeignKey(People, related_name="person_project_manager")
+    program = models.ForeignKey(Program)
     description = models.TextField()
     date_added = models.DateField(auto_now_add=True)
     start_date = models.DateField()
@@ -75,7 +78,6 @@ class Project(models.Model):
     sharepoint_ticket = models.URLField(null=True, blank=True)
     priority = models.CharField(null=True, choices=PRIORITY_CHOICES, default=STANDARD, max_length=2)
     status = models.CharField(choices=STATUS_CHOICES, default=ACTIVE, max_length=1)
-    program = models.ForeignKey(Program)
 
     def __unicode__(self):
         return self.name
