@@ -56,7 +56,7 @@
                             <ul class="treeview-menu">
                                 <li><a href="{% url 'pm:project-new' %}"><i class="fa fa-plus-square-o"></i> New project</a></li>
                             {% for project in projects %}
-                                <li><a href="{% url 'pm:project-detail' project.id %}"><i class="fa fa-angle-double-right"></i> {{ project.name|truncatewords:4 }}</a></li>
+                                <li><a href="{% url 'pm:project-detail' project.id %}"><i class="fa fa-angle-double-right"></i> {{ project.name }}</a></li>
                             {% endfor %}
                             </ul>
                         </li>

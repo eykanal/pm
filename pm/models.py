@@ -150,7 +150,7 @@ class Worker(models.Model):
         unique_together = ('project', 'person',)
 
     def __unicode__(self):
-        return "%s (%s) - %s" % (self.person.name, self.person.group.name, self.project.name)
+        return "%s (%s) - %s" % (self.person.full_name(), self.person.group.name, self.project.name)
 
 
 class Task(models.Model):
@@ -206,4 +206,4 @@ class TaskWorker(models.Model):
         unique_together = ('task', 'worker',)
 
     def __unicode__(self):
-        return "%s (%s) - %s - %s" % (self.worker.person.name, self.worker.person.group.name, self.worker.project.name, self.task.name)
+        return "%s (%s) - %s - %s" % (self.worker.person.full_name(), self.worker.person.group.name, self.worker.project.name, self.task.name)
