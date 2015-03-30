@@ -3,7 +3,7 @@ import json
 from django.http import JsonResponse
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
 from django.db.models import Q
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from pm.models import Program, Project, People, Task, Worker, TaskWorker, TaskDependency
 from pm.forms import ProjectForm, TaskForm
@@ -94,14 +94,14 @@ def create_project(request):
         form = ProjectForm(request.POST)
         if form.is_valid():
             print form.cleaned_data
-            p = Project(
-                name=form.cleaned_data['name'],
-
-            )
+            # p = Project(
+            #     name=form.cleaned_data['name'],
+            #
+            # )
             # save project
             # save workers
             # return to project page
-            return Index()
+            return redirect('pm:index')
         else:
             # handle errors
             print form.cleaned_data
