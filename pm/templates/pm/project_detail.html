@@ -3,7 +3,7 @@
 
 {% block title %}Project Detail - {{ project.name }}{% endblock title %}
 
-{% block content-header %}Project Detail - <b>{{ project.name }}</b>{% endblock content-header %}
+{% block content-header %}<b>{{ project.name }}</b> ({{ project.program.name }}){% endblock content-header %}
 
 {% block content %}
 <div class="row">
@@ -30,11 +30,11 @@
                     </tr>
                     <tr>
                         <td>Requester:</td>
-                        <td>{{ project.requester.name }}</td>
+                        <td>{{ project.requester.full_name }}</td>
                     </tr>
                     <tr>
                         <td>Assigned to:</td>
-                        <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.full_name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
                     <tr>
                         <td>Start Date:</td>
@@ -60,7 +60,7 @@
         <p>Task successfully entered!</p>
     </div>
     <div class="col-md-12">
-        <div class="box box-solid box-info">
+        <div class="box box-solid box-warning">
             <div class="box-header">
                 <h3 class="box-title">New Task</h3>
             </div>
@@ -94,7 +94,7 @@
                         <td class="center">{{ task.start_date }}</td>
                         <td class="center">{{ task.due_date }}</td>
                         <td class="center">{{ task.date_completed }}</td>
-                        <td>{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td>{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -105,7 +105,6 @@
 {% endblock %}
 
 {% block custom_js %}
-<script type="text/javascript">
 "use strict";
 
 $(document).keydown(function(e) {
@@ -173,5 +172,11 @@ function process_submit (event) {
 
 $('#create-task').on('submit', process_submit);
 
-</script>
+$('.datemask input')
+// date masking
+    .inputmask('yyyy-mm-dd', {"placeholder": "yyyy-mm-dd"})
+// add calendar icon
+    .wrap('<div class="input-group"></div>')
+    .before('<div class="input-group-addon"><i class="fa fa-calendar"></i></div>');
+
 {% endblock %}

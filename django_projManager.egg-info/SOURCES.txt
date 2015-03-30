@@ -23,9 +23,6 @@ pm/migrations/0003_auto_20141123_2048.py
 pm/migrations/0004_auto_20141124_0414.py
 pm/migrations/0005_auto_20150225_0442.py
 pm/migrations/__init__.py
-pm/static/.DS_Store
-pm/static/pm/.DS_Store
-pm/static/pm/css/.DS_Store
 pm/static/pm/css/AdminLTE.css
 pm/static/pm/css/bootstrap.min.css
 pm/static/pm/css/font-awesome.min.css
@@ -50,7 +47,6 @@ pm/static/pm/js/jquery.cookie.min.js
 pm/static/pm/js/jquery.inputmask.bundle.min.js
 pm/static/pm/js/jquery.min.js
 pm/static/pm/js/respond.min.js
-pm/templates/.DS_Store
 pm/templates/pm/base.html
 pm/templates/pm/index.html
 pm/templates/pm/person_detail.html

@@ -1,8 +1,8 @@
 {% extends "pm/base.html" %}
 
-{% block title %}Person Detail - {{ person.name }}{% endblock title %}
+{% block title %}Person Detail - {{ person.full_name }}{% endblock title %}
 
-{% block content-header %}Person Detail - <b>{{ person.name }}</b> ({{ person.group.name }}){% endblock content-header %}
+{% block content-header %}Person Detail - <b>{{ person.full_name }}</b> ({{ person.group.name }}){% endblock content-header %}
 
 {% block content %}
 <div class="row">
@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{ worker.project.name }}</td>
                         <td class="center">{% if worker.owner %}<i class="fa fa-check"></i>{% else %}&nbsp;{% endif %}</td>
-                        <td>{% for w in worker.project.worker_set.all %}{{ w.person.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td>{% for w in worker.project.worker_set.all %}{{ w.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -52,7 +52,7 @@
                         <td><b>{{ t.task.name }}</b> - {{ t.task.description }}</td>
                         <td class="center">{{ t.task.start_date | date:"M. jS" }}</td>
                         <td class="center">{{ t.task.due_date | date:"M. jS" }}</td>
-                        <td>{% for w in t.task.taskworker_set.all %}{{ w.worker.person.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td>{% for w in t.task.taskworker_set.all %}{{ w.worker.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
                     {% endfor %}
                     {% endfor %}

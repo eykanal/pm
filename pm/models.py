@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from django.conf import settings
 from django.db import models
 
 
@@ -10,15 +11,23 @@ class Group(models.Model):
 
 
 class People(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.OneToOneField(settings.AUTH_USER_MODEL)
+    boss = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='boss_of', null=True, blank=True)
     group = models.ForeignKey(Group)
 
     class Meta:
         unique_together = ('name', 'group',)
+        permissions = (
+            ('view_people', 'Can view people'),
+            ('modify_people', 'Can create, edit, and delete people'),
+        )
 
     def __unicode__(self):
-        return "%s (%s)" % (self.name, self.group.name)
+        return "%s %s (%s)" % (self.name.first_name, self.name.last_name, self.group.name)
 
+    def full_name(self):
+        return "%s %s" %(self.name.first_name, self.name.last_name)
+    
     def lead_count(self):
         return self.worker_set.filter(owner=True).count()
 
@@ -36,6 +45,11 @@ class Program(models.Model):
     name = models.CharField(max_length=500)
     description = models.TextField()
     date_added = models.DateField(auto_now_add=True)
+
+    class Meta:
+        permissions = (
+            ('modify_program', 'Can create, edit, and delete programs'),
+        )
 
     def __unicode__(self):
         return self.name
@@ -67,6 +81,7 @@ class Project(models.Model):
     name = models.CharField(max_length=500)
     requester = models.ForeignKey(People, related_name="person_requester")
     project_manager = models.ForeignKey(People, related_name="person_project_manager")
+    program = models.ForeignKey(Program)
     description = models.TextField()
     date_added = models.DateField(auto_now_add=True)
     start_date = models.DateField()
@@ -75,7 +90,12 @@ class Project(models.Model):
     sharepoint_ticket = models.URLField(null=True, blank=True)
     priority = models.CharField(null=True, choices=PRIORITY_CHOICES, default=STANDARD, max_length=2)
     status = models.CharField(choices=STATUS_CHOICES, default=ACTIVE, max_length=1)
-    program = models.ForeignKey(Program)
+
+    class Meta:
+        permissions = (
+            ('view_project', 'Can view projects'),
+            ('modify_project', 'Can create, edit, and delete projects'),
+        )
 
     def __unicode__(self):
         return self.name
@@ -116,32 +136,6 @@ class Project(models.Model):
         next_due_date = min(due_date_list)['due_date'] 
         return self.task_set.filter(due_date=next_due_date)
 
-    def ordered_tasks(self):
-        pass
-        '''
-        pull all tasks for the project
-        task_set = empty
-        create set of all unblocked tasks, add to task_set
-        recurse over all sets within task_set:
-            recursively find tasks that are blocked by it
-            for each task blocked:
-                if the blocked set is also blocked by other tasks:
-                    create a new set of all tasks with a similar blocking pattern
-                    add set to task_set
-
-        iteration function:
-        for t_blocking in in task_set:
-            create set t_blocked by t_blocking
-            for each t in t_blocked:
-                if set t_blocked > 1 (i.e., if blocked by more than just t_blocking):
-                    create set of all tasks with similar blocked pattern (practically,
-                    iterate over all tasks in that set, find those with similar blocked
-                    pattern)
-                    add set to end of task_set
-                else:
-
-        '''
-
 
 class Worker(models.Model):
     project = models.ForeignKey(Project)
@@ -156,7 +150,7 @@ class Worker(models.Model):
         unique_together = ('project', 'person',)
 
     def __unicode__(self):
-        return "%s (%s) - %s" % (self.person.name, self.person.group.name, self.project.name)
+        return "%s (%s) - %s" % (self.person.full_name(), self.person.group.name, self.project.name)
 
 
 class Task(models.Model):
@@ -184,6 +178,10 @@ class Task(models.Model):
 
     class Meta:
         unique_together = ('name', 'project',)
+        permissions = (
+            ('view_task', 'Can view tasks'),
+            ('modify_task', 'Can create, edit, and delete tasks'),
+        )
 
     def __unicode__(self):
         return "%s - %s" % (self.name, self.project.name)
@@ -208,4 +206,4 @@ class TaskWorker(models.Model):
         unique_together = ('task', 'worker',)
 
     def __unicode__(self):
-        return "%s (%s) - %s - %s" % (self.worker.person.name, self.worker.person.group.name, self.worker.project.name, self.task.name)
+        return "%s (%s) - %s - %s" % (self.worker.person.full_name(), self.worker.person.group.name, self.worker.project.name, self.task.name)

@@ -69,13 +69,13 @@ class TaskForm(forms.Form):
     due_date = forms.DateField(required=False)
     status = forms.ChoiceField(choices=Task.STATUS_CHOICES)
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
-    worker = forms.ModelMultipleChoiceField(queryset=Worker.objects.none())
+    worker = forms.ModelMultipleChoiceField(queryset=People.objects.none())
     blocked_by = forms.ModelMultipleChoiceField(queryset=Task.objects.none(), required=False)
 
     def __init__(self, *args, **kwargs):
         self.project_id = kwargs.pop('project_id')
         super(TaskForm, self).__init__(*args, **kwargs)
-        self.fields['worker'].queryset = Worker.objects.filter(project=self.project_id)
+        self.fields['worker'].queryset = People.objects.filter(worker__project=self.project_id)
         self.fields['blocked_by'].queryset = Task.objects.filter(project=self.project_id)
 
         self.helper = FormHelper()
@@ -88,8 +88,8 @@ class TaskForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 Div(Field('name'), css_class='col-lg-3 col-sm-6'),
-                Div(Field('start_date'), css_class='col-lg-3 col-sm-6'),
-                Div(Field('due_date'), css_class='col-lg-3 col-sm-6'),
+                Div(Field('start_date'), css_class='col-lg-3 col-sm-6 datemask'),
+                Div(Field('due_date'), css_class='col-lg-3 col-sm-6 datemask'),
                 Div(Field('status'), css_class='col-lg-3 col-sm-6'),
                 css_class='row',
             ),
