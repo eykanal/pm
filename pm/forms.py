@@ -14,9 +14,9 @@ class ProjectForm(forms.Form):
     due_date = forms.DateField(required=False)
     date_complete = forms.DateField(required=False)
     sharepoint_ticket = forms.URLField(required=False)
-    priority = forms.ChoiceField(choices=Project.PRIORITY_CHOICES)
+    priority = forms.ChoiceField(choices=Project.PRIORITY_CHOICES, initial=Project.STANDARD)
     status = forms.ChoiceField(choices=Project.STATUS_CHOICES)
-    program = forms.ModelChoiceField(Program.objects.all(), empty_label=None)
+    program = forms.ModelChoiceField(Program.objects.all(), empty_label=None, initial="None")
     workers = forms.ModelMultipleChoiceField(queryset=People.objects.filter(Q(group="MAAD") | Q(group="OAR")).order_by('name'))
 
     def __init__(self, *args, **kwargs):
@@ -67,7 +67,7 @@ class TaskForm(forms.Form):
     name = forms.CharField()
     start_date = forms.DateField()
     due_date = forms.DateField(required=False)
-    status = forms.ChoiceField(choices=Task.STATUS_CHOICES)
+    status = forms.ChoiceField(choices=Task.STATUS_CHOICES, initial=Task.ACTIVE)
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
     worker = forms.ModelMultipleChoiceField(queryset=People.objects.none())
     blocked_by = forms.ModelMultipleChoiceField(queryset=Task.objects.none(), required=False)
