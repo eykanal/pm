@@ -12,7 +12,7 @@ class Group(models.Model):
 
 class People(models.Model):
     name = models.OneToOneField(settings.AUTH_USER_MODEL)
-    boss = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='boss_of', null=True, blank=True)
+    boss = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='boss_of', null=True, blank=True)
     group = models.ForeignKey(Group)
 
     class Meta:

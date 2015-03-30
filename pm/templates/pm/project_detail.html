@@ -60,7 +60,7 @@
         <p>Task successfully entered!</p>
     </div>
     <div class="col-md-12">
-        <div class="box box-solid box-info">
+        <div class="box box-solid box-warning">
             <div class="box-header">
                 <h3 class="box-title">New Task</h3>
             </div>
@@ -171,5 +171,12 @@ function process_submit (event) {
 };
 
 $('#create-task').on('submit', process_submit);
+
+$('.datemask input')
+// date masking
+    .inputmask('yyyy-mm-dd', {"placeholder": "yyyy-mm-dd"})
+// add calendar icon
+    .wrap('<div class="input-group"></div>')
+    .before('<div class="input-group-addon"><i class="fa fa-calendar"></i></div>');
 
 {% endblock %}
