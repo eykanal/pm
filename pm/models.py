@@ -3,6 +3,14 @@ from django.conf import settings
 from django.db import models
 
 
+# Redefine the User model to use a cleaner name rather than the
+# username itself, which may be difficult to interpret
+def user_unicode_patch(self):
+    return u'%s, %s' % (self.last_name, self.first_name)
+
+User.__unicode__ = user_unicode_patch
+
+
 class Group(models.Model):
     name = models.CharField(max_length=200, primary_key=True)
 
