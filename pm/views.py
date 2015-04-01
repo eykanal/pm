@@ -112,5 +112,16 @@ def create_project(request):
     return render_to_response("pm/project_new.html", {'form': form}, context)
 
 
+@json_view()
+def get_users(request):
+    print request.GET['q']
+    response = []
+    everyone = People.objects.filter(Q(name__first_name__contains=request.GET['q']) | Q(name__last_name__contains=request.GET['q']))
+    for p in everyone:
+        response.append({"id": p.pk, "text": p.full_name()})
+    # return {'items': [{'id': 'bob', 'text': 'joe'}, {'id': 'frank', 'text': 'me'}]}
+    return {'items': response}
+
+
 class EditProject(UpdateView):
     pass

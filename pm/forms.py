@@ -17,7 +17,7 @@ class ProjectForm(forms.Form):
     priority = forms.ChoiceField(choices=Project.PRIORITY_CHOICES, initial=Project.STANDARD)
     status = forms.ChoiceField(choices=Project.STATUS_CHOICES)
     program = forms.ModelChoiceField(Program.objects.all(), empty_label=None, initial="None")
-    workers = forms.ModelMultipleChoiceField(queryset=People.objects.filter(Q(group="MAAD") | Q(group="OAR")).order_by('name'))
+    workers = forms.ModelMultipleChoiceField(queryset=People.objects.none())
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
