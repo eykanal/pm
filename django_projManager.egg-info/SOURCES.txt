@@ -22,6 +22,9 @@ pm/migrations/0002_auto_20141121_0615.py
 pm/migrations/0003_auto_20141123_2048.py
 pm/migrations/0004_auto_20141124_0414.py
 pm/migrations/0005_auto_20150225_0442.py
+pm/migrations/0006_auto_20150327_0047.py
+pm/migrations/0007_auto_20150327_1023.py
+pm/migrations/0008_auto_20150330_0152.py
 pm/migrations/__init__.py
 pm/static/pm/css/AdminLTE.css
 pm/static/pm/css/bootstrap.min.css
