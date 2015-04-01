@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, DetailView, UpdateView, CreateVie
 from django.db.models import Q
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
+from django.contrib.auth.models import User
 from pm.models import Program, Project, People, Task, Worker, TaskWorker, TaskDependency
 from pm.forms import ProjectForm, TaskForm
 from jsonview.decorators import json_view
@@ -93,12 +94,22 @@ def create_project(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         if form.is_valid():
-            print form.cleaned_data
-            # p = Project(
-            #     name=form.cleaned_data['name'],
-            #
-            # )
-            # save project
+            p = Project(
+                name=form.cleaned_data['name'],
+                requester=form.cleaned_data['requester'],
+                project_manager=form.cleaned_data['project_manager'],
+                program=form.cleaned_data['program'],
+                description=form.cleaned_data['description'],
+                start_date=form.cleaned_data['start_date'],
+                due_date=form.cleaned_data['due_date'],
+                date_complete=form.cleaned_data['date_complete'],
+                sharepoint_ticket=form.cleaned_data['sharepoint_ticket'],
+                priority=form.cleaned_data['priority'],
+                status=form.cleaned_data['status'])
+            p.save()
+
+            # for w in form.data['w']
+            # create workers
             # save workers
             # return to project page
             return redirect('pm:index')

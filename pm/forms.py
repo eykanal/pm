@@ -17,7 +17,7 @@ class ProjectForm(forms.Form):
     priority = forms.ChoiceField(choices=Project.PRIORITY_CHOICES, initial=Project.STANDARD)
     status = forms.ChoiceField(choices=Project.STATUS_CHOICES)
     program = forms.ModelChoiceField(Program.objects.all(), empty_label=None, initial="None")
-    workers = forms.ModelMultipleChoiceField(queryset=People.objects.none())
+    workers = forms.ModelMultipleChoiceField(queryset=People.objects.all())
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
@@ -60,6 +60,12 @@ class ProjectForm(forms.Form):
                 css_class='row',
             )
         )
+
+    def clean(self):
+        print self.data['workers']
+        cleaned_data = super(ProjectForm, self).clean()
+        del self._errors['workers']
+        return cleaned_data
 
 
 class TaskForm(forms.Form):
