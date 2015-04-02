@@ -22,11 +22,17 @@ pm/migrations/0002_auto_20141121_0615.py
 pm/migrations/0003_auto_20141123_2048.py
 pm/migrations/0004_auto_20141124_0414.py
 pm/migrations/0005_auto_20150225_0442.py
+pm/migrations/0006_auto_20150327_0047.py
+pm/migrations/0007_auto_20150327_1023.py
+pm/migrations/0008_auto_20150330_0152.py
+pm/migrations/0009_auto_20150401_0120.py
+pm/migrations/0010_group_internal.py
 pm/migrations/__init__.py
 pm/static/pm/css/AdminLTE.css
 pm/static/pm/css/bootstrap.min.css
 pm/static/pm/css/font-awesome.min.css
 pm/static/pm/css/ionicons.min.css
+pm/static/pm/css/select2.min.css
 pm/static/pm/css/styles.css
 pm/static/pm/fonts/FontAwesome.otf
 pm/static/pm/fonts/fontawesome-webfont.eot
@@ -47,6 +53,8 @@ pm/static/pm/js/jquery.cookie.min.js
 pm/static/pm/js/jquery.inputmask.bundle.min.js
 pm/static/pm/js/jquery.min.js
 pm/static/pm/js/respond.min.js
+pm/static/pm/js/select2.js
+pm/static/pm/js/select2.min.js
 pm/templates/pm/base.html
 pm/templates/pm/index.html
 pm/templates/pm/person_detail.html
