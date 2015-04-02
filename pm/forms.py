@@ -7,8 +7,8 @@ from crispy_forms.layout import Layout, Submit, Div, Field
 
 class ProjectForm(forms.Form):
     name = forms.CharField(max_length=500)
-    requester = forms.ModelChoiceField(People.objects.all())
-    project_manager = forms.ModelChoiceField(People.objects.all())
+    requester = forms.ModelChoiceField(People.objects.filter(Q(group="MAAD") | Q(group="OAR") | Q(group="ODS")))
+    project_manager = forms.ModelChoiceField(People.objects.filter(Q(group="MAAD") | Q(group="OAR") | Q(group="ODS")))
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 10, 'cols': 60}))
     start_date = forms.DateField()
     due_date = forms.DateField(required=False)
@@ -60,12 +60,6 @@ class ProjectForm(forms.Form):
                 css_class='row',
             )
         )
-
-    def clean(self):
-        print self.data['workers']
-        cleaned_data = super(ProjectForm, self).clean()
-        del self._errors['workers']
-        return cleaned_data
 
 
 class TaskForm(forms.Form):

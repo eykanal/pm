@@ -9,9 +9,6 @@ class PeopleInline(admin.TabularInline):
 
 
 class GroupAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None, {'fields': ['name']})
-    ]
     inlines = [PeopleInline]
 
 

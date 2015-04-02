@@ -17,25 +17,6 @@ $('.datemask input')
     .wrap('<div class="input-group"></div>')
     .before('<div class="input-group-addon"><i class="fa fa-calendar"></i></div>');
 // make workers field pretty
-$('#id_workers').select2({
-    ajax: {
-        url: "{% url 'pm:get-users' %}",
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-            return {
-                q: params.term
-            };
-        },
-        processResults: function (data, page) {
-            console.log(data);
-            return {
-                results: data.items
-            };
-        },
-    },
-    escapeMarkup: function (markup) { return markup; },
-    minimumInputLength: 2,
-});
+$('#id_workers').select2();
 $('#hint_id_workers').remove();
 {% endblock %}
