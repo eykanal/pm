@@ -7,8 +7,8 @@ from crispy_forms.layout import Layout, Submit, Div, Field
 
 class ProjectForm(forms.Form):
     name = forms.CharField(max_length=500)
-    requester = forms.ModelChoiceField(People.objects.filter(Q(group="MAAD") | Q(group="OAR") | Q(group="ODS")))
-    project_manager = forms.ModelChoiceField(People.objects.filter(Q(group="MAAD") | Q(group="OAR") | Q(group="ODS")))
+    requester = forms.ModelChoiceField(People.objects.filter(group__internal=True))
+    project_manager = forms.ModelChoiceField(People.objects.filter(group__internal=True))
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 10, 'cols': 60}))
     start_date = forms.DateField()
     due_date = forms.DateField(required=False)
@@ -75,7 +75,7 @@ class TaskForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.project_id = kwargs.pop('project_id')
         super(TaskForm, self).__init__(*args, **kwargs)
-        self.fields['worker'].queryset = People.objects.filter(worker__project=self.project_id)
+        self.fields['worker'].queryset = People.objects.filter(Q(worker__project=self.project_id) & Q(group__internal=True))
         self.fields['blocked_by'].queryset = Task.objects.filter(project=self.project_id)
 
         self.helper = FormHelper()

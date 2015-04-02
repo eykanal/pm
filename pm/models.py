@@ -6,6 +6,7 @@ from django.db import models
 class Group(models.Model):
     name = models.CharField(max_length=200, primary_key=True)
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    internal = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name

@@ -3,6 +3,7 @@ table td.center, table th.center { text-align: center; }
 table td.vcenter, table th.vcenter { vertical-align: middle; }
 .new-task { display: none; }
 .new-task .alert { display: none; }
+.bold { font-weight: bold; }
 /* remove "hold down control" message that crispy_forms automatically generates */
 #create-task .controls p.help-block { display: none; }
 /* show mouse when hovering table rows */

@@ -17,7 +17,7 @@ def menu_items(request):
     if 'pm' in request.resolver_match.namespaces:
         return {
             'projects': Project.objects.all().order_by('name'),
-            'people': People.objects.filter(Q(group="MAAD") | Q(group="OAR")).order_by('name')
+            'people': People.objects.filter(group__internal=True).order_by('name')
         }
     return {}
 
@@ -67,10 +67,9 @@ def create_task(request):
 
         # save workers
         for w in form.cleaned_data['worker']:
-            print w
             tw = TaskWorker(
                 task=Task.objects.get(pk=t.id),
-                worker=w
+                worker=w,
             )
             tw.save()
 
@@ -108,10 +107,13 @@ def create_project(request):
                 status=form.cleaned_data['status'])
             p.save()
 
-            # for w in form.data['w']
-            # create workers
-            # save workers
-            # return to project page
+            for w in form.cleaned_data['workers']:
+                w = Worker(
+                    project=Project.objects.get(pk=p.id),
+                    person=w,
+                )
+                w.save()
+
             return redirect('pm:index')
         else:
             # handle errors
