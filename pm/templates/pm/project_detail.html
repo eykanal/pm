@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <td>Assigned to:</td>
-                        <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="text-light-blue">{% endif %}{{ worker.person.full_name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td>{% for worker in project.worker_set.all %}<span class="{% if worker.owner %}bold{% endif %} {% if not worker.person.group.internal %}text-muted{% endif %}">{{ worker.person.full_name }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
                     <tr>
                         <td>Start Date:</td>

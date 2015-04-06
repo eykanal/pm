@@ -16,4 +16,9 @@ $('.datemask input')
 // add calendar icon
     .wrap('<div class="input-group"></div>')
     .before('<div class="input-group-addon"><i class="fa fa-calendar"></i></div>');
+// make workers field pretty
+$('#id_workers').select2({
+    minimumInputLength: 2,
+});
+$('#hint_id_workers').remove();
 {% endblock %}

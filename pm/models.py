@@ -14,6 +14,8 @@ User.__unicode__ = user_unicode_patch
 
 class Group(models.Model):
     name = models.CharField(max_length=200, primary_key=True)
+    manager = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    internal = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
@@ -21,7 +23,6 @@ class Group(models.Model):
 
 class People(models.Model):
     name = models.OneToOneField(settings.AUTH_USER_MODEL)
-    boss = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='boss_of', null=True, blank=True)
     group = models.ForeignKey(Group)
 
     class Meta:
@@ -32,10 +33,10 @@ class People(models.Model):
         )
 
     def __unicode__(self):
-        return "%s %s (%s)" % (self.name.first_name, self.name.last_name, self.group.name)
+        return "%s, %s (%s)" % (self.name.last_name, self.name.first_name, self.group.name)
 
     def full_name(self):
-        return "%s %s" %(self.name.first_name, self.name.last_name)
+        return "%s %s" % (self.name.first_name, self.name.last_name)
     
     def lead_count(self):
         return self.worker_set.filter(owner=True).count()
