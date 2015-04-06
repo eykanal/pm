@@ -25,9 +25,9 @@ class Command(BaseCommand):
 
         self.stdout.write("Added default project")
 
-        gr['maad'] = Group.objects.create(name="MAAD")
-        gr['oar'] = Group.objects.create(name="OAR")
-        gr['ods'] = Group.objects.create(name="ODS")
+        gr['maad'] = Group.objects.create(name="MAAD", internal=True)
+        gr['oar'] = Group.objects.create(name="OAR", internal=True)
+        gr['ods'] = Group.objects.create(name="ODS", internal=True)
 
         self.stdout.write("Added ods groups")
 
