@@ -21,13 +21,13 @@ class Command(BaseCommand):
 
         self.stdout.write("Added admin user")
 
-        prg['none'] = Program.objects.create(name="None", description="Default program for projects.")
+        prg['none'] = Program.objects.get(name="None")
 
         self.stdout.write("Added default project")
 
-        gr['maad'] = Group.objects.create(name="MAAD")
-        gr['oar'] = Group.objects.create(name="OAR")
-        gr['ods'] = Group.objects.create(name="ODS")
+        gr['maad'] = Group.objects.create(name="MAAD", internal=True)
+        gr['oar'] = Group.objects.create(name="OAR", internal=True)
+        gr['ods'] = Group.objects.create(name="ODS", internal=True)
 
         self.stdout.write("Added ods groups")
 
