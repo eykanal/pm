@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
         self.stdout.write("Added admin user")
 
-        prg['none'] = Program.objects.create(name="None", description="Default program for projects.")
+        prg['none'] = Program.objects.get(name="None")
 
         self.stdout.write("Added default project")
 
