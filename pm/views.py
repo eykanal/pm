@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from pm.models import Program, Project, People, Task, Worker, TaskWorker, TaskDependency
 from pm.forms import ProjectForm, TaskForm
 from jsonview.decorators import json_view
@@ -22,12 +24,19 @@ def menu_items(request):
     return {}
 
 
+# Mixin for Class-Based Views to enable login_required functionality
+class LoginRequiredMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
 # Main view
-class Index(TemplateView):
+class Index(LoginRequiredMixin, TemplateView):
     template_name = "pm/index.html"
 
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = "pm/project_detail.html"
 
@@ -38,7 +47,7 @@ class ProjectDetailView(DetailView):
             return super(ProjectDetailView, self).get_context_data(**kwargs)
 
 
-class PersonDetailView(DetailView):
+class PersonDetailView(LoginRequiredMixin, DetailView):
     model = People
     template_name = "pm/person_detail.html"
 
@@ -65,11 +74,11 @@ def create_task(request):
             status=form.cleaned_data['status'])
         t.save()
 
-        # save workers
+        # save workers (note that "w" here is a Person, not a Worker)
         for w in form.cleaned_data['worker']:
             tw = TaskWorker(
                 task=Task.objects.get(pk=t.id),
-                worker=w,
+                worker=Worker.objects.get(person=w, project=form.cleaned_data['project']),
             )
             tw.save()
 
@@ -87,6 +96,7 @@ def create_task(request):
     return {'success': False, 'form_html': form_html}
 
 
+@login_required()
 def create_project(request):
     context = RequestContext(request)
 
@@ -136,5 +146,5 @@ def get_users(request):
     return {'items': response}
 
 
-class EditProject(UpdateView):
+class EditProject(LoginRequiredMixin, UpdateView):
     pass

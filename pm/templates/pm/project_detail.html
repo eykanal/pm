@@ -50,14 +50,18 @@
     </div>
 </div>
 <div class="row new-task">
-    <div class="alert alert-danger alert-dismissable">
-        <h4>Error!</h4>
-        <p>An error was encountered while saving the form. Please try again shortly.</p>
+    <div class="col-md-12">
+        <div class="alert alert-danger alert-dismissable">
+            <h4>Error!</h4>
+            <p>An error was encountered while saving the form. Please try again shortly.</p>
+        </div>
     </div>
-    <div class="alert alert-success alert-dismissable">
-        <i class="fa fa-check"></i>
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <p>Task successfully entered!</p>
+    <div class="col-md-12">
+        <div class="alert alert-success alert-dismissable">
+            <i class="fa fa-check"></i>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <p>Task successfully entered!</p>
+        </div>
     </div>
     <div class="col-md-12">
         <div class="box box-solid box-warning">
@@ -112,7 +116,8 @@ $(document).keydown(function(e) {
     if(e.which == 78) {
         $(".new-task").show();
         $(".new-task .box").show();
-        $(".new-task .alert").hide();
+        $(".new-task .alert-danger").hide();
+        $(".new-task .alert-success").hide();
     }
     // "esc" hides new task window
     if(e.which == 27) {
@@ -157,6 +162,13 @@ function process_submit (event) {
                 if(!(data['success'])) {
                     $('#create-task').replaceWith(data['form_html']);
                     $('#create-task').on('submit', process_submit);  // need to bind the function to the new element
+                    $('.datemask input')
+                    // date masking
+                        .inputmask('yyyy-mm-dd', {"placeholder": "yyyy-mm-dd"})
+                    // add calendar icon
+                        .wrap('<div class="input-group"></div>')
+                        .before('<div class="input-group-addon"><i class="fa fa-calendar"></i></div>');
+
                 } else {
                     $('.new-task .box').hide();
                     $('.new-task .alert-success').show();
@@ -164,7 +176,7 @@ function process_submit (event) {
                 }
             },
             error: function(xhr,errmsg,err) {
-                $('.new-task .alert-error').show();
+                $('.new-task .alert-danger').show();
                 console.log(xhr.status + ": " + xhr.responseText);
             }
         });

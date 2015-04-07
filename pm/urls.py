@@ -1,8 +1,6 @@
 from django.conf.urls import patterns, url
 from views import *
 
-# TODO: create project detail view
-# TODO: create people detail view
 urlpatterns = patterns(
     '',
     url(r'^$', Index.as_view(), name='index'),
