@@ -61,8 +61,8 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                            {% for person in people %}
-                                <li><a href="{% url 'pm:person-detail' person.id %}"><i class="fa fa-angle-double-right"></i> {{ person.full_name }}</a></li>
+                            {% for person in peoples %}
+                                <li><a href="{% url 'pm:person-detail' person.id %}"><i class="fa fa-angle-double-right"></i> {{ person.full_name_lastnamefirst }}</a></li>
                             {% endfor %}
                             </ul>
                         </li>

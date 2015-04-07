@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from pm.models import Program, Project, People, Task, Worker, TaskWorker, TaskDependency
+from pm.models import Program, Project, Group, People, Task, Worker, TaskWorker, TaskDependency
 from pm.forms import ProjectForm, TaskForm
 from jsonview.decorators import json_view
 from crispy_forms.utils import render_crispy_form
@@ -18,8 +18,9 @@ from crispy_forms.utils import render_crispy_form
 def menu_items(request):
     if 'pm' in request.resolver_match.namespaces:
         return {
+            'internal_groups': Group.objects.filter(internal=True),
             'projects': Project.objects.all().order_by('name'),
-            'people': People.objects.filter(group__internal=True).order_by('name')
+            'peoples': People.objects.filter(group__internal=True).order_by('name__last_name')
         }
     return {}
 

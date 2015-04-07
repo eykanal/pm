@@ -37,6 +37,9 @@ class People(models.Model):
 
     def full_name(self):
         return "%s %s" % (self.name.first_name, self.name.last_name)
+        
+    def full_name_lastnamefirst(self):
+        return "%s, %s" % (self.name.last_name, self.name.first_name)
     
     def lead_count(self):
         return self.worker_set.filter(owner=True).count()
