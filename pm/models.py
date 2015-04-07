@@ -140,7 +140,7 @@ class Project(models.Model):
         """
         Return a list of the next tasks due plus due dates.
         """
-        due_date_list = self.task_set.values('due_date')  # min() returns a dict, pulling the datetime value out
+        due_date_list = self.task_set.exclude(due_date=None).values('due_date')  # min() returns a dict, pulling the datetime value out
         if not due_date_list:
             return due_date_list
         next_due_date = min(due_date_list)['due_date'] 

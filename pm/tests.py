@@ -17,6 +17,7 @@ class PmTestCase(TestCase):
         w = {}
 
         User.objects.create_superuser("admin", "admin@example.com", "admin")
+        self.client.login(username='admin', password='admin')
 
         prg['none'] = Program.objects.get(name="None")
 

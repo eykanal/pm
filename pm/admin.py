@@ -10,6 +10,7 @@ class PeopleInline(admin.TabularInline):
 
 class GroupAdmin(admin.ModelAdmin):
     inlines = [PeopleInline]
+    list_display = ('name', 'manager', 'internal')
 
 
 class WorkerInline(admin.TabularInline):
@@ -19,6 +20,7 @@ class WorkerInline(admin.TabularInline):
 
 class ProjectAdmin(admin.ModelAdmin):
     inlines = [WorkerInline]
+    list_display = ('name', 'requester', 'project_manager', 'program', 'date_added', 'start_date', 'due_date', 'date_complete', 'priority', 'status')
 
 
 class TaskDependencyInline(admin.TabularInline):
@@ -40,6 +42,7 @@ class TaskWorkerInline(admin.TabularInline):
 
 class TaskAdmin(admin.ModelAdmin):
     inlines = [TaskWorkerInline, TaskDependencyInline]
+    list_display = ('name', 'project', 'date_added', 'start_date', 'due_date', 'date_complete', 'status')
 
 
 admin.site.register(People)
