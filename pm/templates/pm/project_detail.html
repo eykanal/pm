@@ -33,6 +33,10 @@
                         <td>{{ project.requester.full_name }}</td>
                     </tr>
                     <tr>
+                        <td>Proj. Manager:</td>
+                        <td>{{ project.project_manager.full_name }}</td>
+                    </tr>
+                    <tr>
                         <td>Assigned to:</td>
                         <td>{% for worker in project.worker_set.all %}<span class="{% if worker.owner %}bold{% endif %} {% if not worker.person.group.internal %}text-muted{% endif %}">{{ worker.person.full_name }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
@@ -43,6 +47,16 @@
                     <tr>
                         <td>Due Date:</td>
                         <td>{{ project.due_date }}</td>
+                    </tr>
+                    {% if project.sharepoint_ticket %}
+                    <tr>
+                        <td>URL:</td>
+                        <td><a href="{{ project.sharepoint_ticket }}" target="_blank">Sharepoint ticket</a></td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td>Status:</td>
+                        <td>{{ project.get_status_display }}</td>
                     </tr>
                 </table>
             </div>

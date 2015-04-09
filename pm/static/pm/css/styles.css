@@ -1,3 +1,6 @@
+tr.project-inactive { display: none; }
+tr.not-mine { display: none; }
+
 ol { padding-left: 15px; margin: 0px; }
 table td.center, table th.center { text-align: center; }
 table td.vcenter, table th.vcenter { vertical-align: middle; }
