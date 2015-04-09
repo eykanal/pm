@@ -31,6 +31,7 @@ pm/migrations/0011_auto_20150406_0246.py
 pm/migrations/__init__.py
 pm/static/pm/css/AdminLTE.css
 pm/static/pm/css/bootstrap.min.css
+pm/static/pm/css/datatables.min.css
 pm/static/pm/css/font-awesome.min.css
 pm/static/pm/css/ionicons.min.css
 pm/static/pm/css/select2.min.css
@@ -48,6 +49,7 @@ pm/static/pm/fonts/ionicons.woff
 pm/static/pm/js/AdminLTE.js
 pm/static/pm/js/bootstrap.min.js
 pm/static/pm/js/custom.js
+pm/static/pm/js/datatables.min.js
 pm/static/pm/js/html5shiv-printshiv.min.js.html
 pm/static/pm/js/html5shiv.min.js.html
 pm/static/pm/js/jquery.cookie.min.js
