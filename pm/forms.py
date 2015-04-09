@@ -1,6 +1,6 @@
 from django import forms
 from django.db.models import Q
-from pm.models import Program, Project, People, Task, Worker, TaskDependency
+from pm.models import Program, Project, People, Task, Worker, TaskDependency, Reviews, ProjectReviews, WorkerReviews
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Div, Field
 
@@ -102,3 +102,24 @@ class TaskForm(forms.Form):
             ),
         )
 
+
+class ReviewForm(forms.Form):
+    rating = forms.ChoiceField(choices=Reviews.RATING_CHOICES)
+    comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.label_class = "col-md-3"
+        self.helper.field_class = "col-md-9"
+        self.helper.form_id = "review"
+        self.helper.form_action = "pm:review-project"
+        self.helper.layout = Layout(
+            Div(
+                Div(Field('rating'), css_class='col-sm-12'),
+                css_class='row',
+            ),
+            Div(
+                Div(Field('comments'), css_class='col-sm-12'),
+                css_class='row',
+            ),
+        )

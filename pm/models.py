@@ -220,3 +220,47 @@ class TaskWorker(models.Model):
 
     def __unicode__(self):
         return "%s (%s) - %s - %s" % (self.worker.person.full_name(), self.worker.person.group.name, self.worker.project.name, self.task.name)
+
+
+class Reviews(models.Model):
+    VERY_POOR = 1
+    POOR = 2
+    AVERAGE = 3
+    GOOD = 4
+    VERY_GOOD = 5
+    RATING_CHOICES = (
+        (VERY_POOR, 'Very Poor'),
+        (POOR, 'Poor'),
+        (AVERAGE, 'Average'),
+        (GOOD, 'Good'),
+        (VERY_GOOD, 'Very Good')
+    )
+
+    rating = models.SmallIntegerField()
+    comments = models.TextField()
+    date_added = models.DateField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "Review"
+
+
+class ProjectReviews(models.Model):
+    review = models.ForeignKey(Reviews)
+    project = models.ForeignKey(Project)
+
+    class Meta:
+        unique_together = ('review', 'project')
+
+    def __unicode__(self):
+        return "Review: %s" % self.project.name
+
+
+class WorkerReviews(models.Model):
+    review = models.ForeignKey(Reviews)
+    worker = models.ForeignKey(Worker)
+
+    class Meta:
+        unique_together = ('review', 'worker')
+
+    def __unicode__(self):
+        return "Review: %s on %s" % (self.worker.person.full_name(), self.worker.project.name)

@@ -147,5 +147,11 @@ def get_users(request):
     return {'items': response}
 
 
-class EditProject(LoginRequiredMixin, UpdateView):
+@login_required()
+def review_project(request):
+    pass
+
+
+@login_required()
+def review_worker(request):
     pass
