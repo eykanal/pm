@@ -4,7 +4,9 @@ from datetime import date
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.management.base import BaseCommand, CommandError
+from django.db.models import Q
 from pm.models import Program, Project, Group, People, Worker, Task, TaskWorker, TaskDependency
+from pm.forms import ProjectForm, TaskForm
 
 
 class PmTestCase(TestCase):
@@ -168,3 +170,62 @@ class PmTestCase(TestCase):
         response = self.client.get(reverse('pm:person-detail', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 200)
 
+    def test_new_project_form(self):
+        # test full submit
+        data1 = {
+            'name': 'test',
+            'requester': People.objects.values_list('pk', flat=True).get(name__username='melissa_lowery'),
+            'project_manager': People.objects.values_list('pk', flat=True).get(name__username='lid0007'),  # Kanal
+            'description': 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            'start_date': date.today(),
+            'due_date': date.today(),
+            'date_complete': date.today(),
+            'sharepoint_ticket': 'http://www.example.com/',
+            'priority': Project.STANDARD,
+            'status': Project.ACTIVE,
+            'program': Program.objects.values_list('pk', flat=True).get(name="None"),
+            'workers': tuple(People.objects.values_list('pk', flat=True).filter(Q(name__username="lid0004") | Q(name__username="lid0008"))),
+        }
+        p1 = ProjectForm(data1)
+        self.assertTrue(p1.is_valid())
+
+        # test only required fields
+        data2 = {
+            'name': 'test',
+            'requester': People.objects.values_list('pk', flat=True).get(name__username='melissa_lowery'),
+            'project_manager': People.objects.values_list('pk', flat=True).get(name__username='lid0007'),  # Kanal
+            'description': 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            'start_date': date.today(),
+            'priority': Project.STANDARD,
+            'status': Project.ACTIVE,
+            'program': Program.objects.values_list('pk', flat=True).get(name="None"),
+            'workers': tuple(People.objects.values_list('pk', flat=True).filter(Q(name__username="lid0004") | Q(name__username="lid0008"))),
+        }
+        p2 = ProjectForm(data2)
+        self.assertTrue(p2.is_valid())
+
+    def test_new_task_form(self):
+        # test full submit
+        data1 = {
+            'project': Project.objects.values_list('pk', flat=True).get(pk=1),
+            'name': 'test',
+            'description': 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+            'start_date': date.today(),
+            'due_date': date.today(),
+            'date_complete': date.today(),
+            'status': Task.ACTIVE,
+            'worker': (2,),  # Tom's ID, still not sure how it wants me to pass it in
+        }
+        t1 = TaskForm(data1, project_id=1)
+        self.assertTrue(t1.is_valid())
+
+        # test only required fields
+        data2 = {
+            'project': Project.objects.values_list('pk', flat=True).get(pk=1),
+            'name': 'test',
+            'start_date': date.today(),
+            'status': Task.ACTIVE,
+            'worker': (2,),  # Tom's ID, same as above
+        }
+        t2 = TaskForm(data2, project_id=1)
+        self.assertTrue(t2.is_valid())
