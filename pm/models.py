@@ -177,7 +177,7 @@ class Task(models.Model):
         (ACTIVE, 'Active'),
         (ON_HOLD, 'On hold'),
         (WAITING, 'Waiting on customer'),
-        (COMPLETED, 'Completed')
+        (COMPLETED, 'Completed'),
     )
 
     project = models.ForeignKey(Project)

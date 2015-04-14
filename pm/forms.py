@@ -2,7 +2,7 @@ from django import forms
 from django.db.models import Q
 from pm.models import Program, Project, People, Task, Worker, TaskDependency, Reviews, ProjectReviews, WorkerReviews
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, Field
+from crispy_forms.layout import Layout, Submit, Row, Div, Field, Fieldset, HTML
 
 
 class ProjectForm(forms.Form):
@@ -103,23 +103,56 @@ class TaskForm(forms.Form):
         )
 
 
-class ReviewForm(forms.Form):
-    rating = forms.ChoiceField(choices=Reviews.RATING_CHOICES)
+class ProjectReviewForm(forms.Form):
+    project = forms.ModelChoiceField(widget=forms.HiddenInput(), queryset=Project.objects.none())
+    rating = forms.ChoiceField(choices=Reviews.RATING_CHOICES, initial=Reviews.AVERAGE)
     comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
 
     def __init__(self, *args, **kwargs):
+        p_pk = kwargs.pop('project')
+        super(ProjectReviewForm, self).__init__(*args, **kwargs)
+        p = Project.objects.get(pk=p_pk)
+        self.fields['project'].queryset = p
+
         self.helper = FormHelper()
         self.helper.label_class = "col-md-3"
         self.helper.field_class = "col-md-9"
-        self.helper.form_id = "review"
-        self.helper.form_action = "pm:review-project"
+        self.helper.form_tag = False
         self.helper.layout = Layout(
-            Div(
-                Div(Field('rating'), css_class='col-sm-12'),
-                css_class='row',
+            Fieldset(
+                'Project review: %s' % p.name,
+                Field('project'),
+                Row(Div(HTML('<p>%s</p>' % p.description), css_class='col-sm-12')),
+                Row(Div(Field('rating'), css_class='col-sm-4'), Div(Field('comments'), css_class='col-sm-8'))
             ),
-            Div(
-                Div(Field('comments'), css_class='col-sm-12'),
-                css_class='row',
+        )
+
+
+class WorkerReviewForm(forms.Form):
+    worker = forms.ModelChoiceField(widget=forms.HiddenInput(), queryset=Worker.objects.none())
+    rating = forms.ChoiceField(choices=Reviews.RATING_CHOICES, initial=Reviews.AVERAGE)
+    comments = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
+
+    def __init__(self, *args, **kwargs):
+        w_pk = kwargs.pop('worker')
+        super(WorkerReviewForm, self).__init__(*args, **kwargs)
+        w = Worker.objects.get(pk=w_pk)
+        self.fields['worker'].queryset = w
+
+        tw = Task.objects.filter(Q(project=w.project) & Q(taskworker__worker=w))
+        s = ""
+        for t in tw:
+            s += ("<li>%s (%s)</li>" % (t.name, t.description))
+
+        self.helper = FormHelper()
+        self.helper.label_class = "col-md-3"
+        self.helper.field_class = "col-md-9"
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                'Worker review: %s' % w.person.full_name(),
+                Field('worker'),
+                Row(Div(HTML("<ul>%s</ul>" % s), css_class='col-sm-12')),
+                Row(Div(Field('rating'), css_class='col-sm-4'), Div(Field('comments'), css_class='col-sm-8'))
             ),
         )

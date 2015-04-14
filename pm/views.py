@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from pm.models import Program, Project, Group, People, Task, Worker, TaskWorker, TaskDependency
-from pm.forms import ProjectForm, TaskForm
+from pm.forms import ProjectForm, TaskForm, ProjectReviewForm, WorkerReviewForm
 from jsonview.decorators import json_view
 from crispy_forms.utils import render_crispy_form
 
@@ -148,10 +148,24 @@ def get_users(request):
 
 
 @login_required()
-def review_project(request):
-    pass
+def reviews(request, project=None):
+    context = RequestContext(request)
 
+    if project is None:
+        return render_to_response("pm/project_review.html", {'project_empty': True}, context)
 
-@login_required()
-def review_worker(request):
-    pass
+    p = Project.objects.get(pk=project)
+
+    if p.status not in (Project.WARRANTY, Project.MAINTENANCE, Project.COMPLETED):
+        return render_to_response("pm/project_review.html", {'project_active': True}, context)
+
+    ws = Worker.objects.filter(project=p)
+    project_form = ProjectReviewForm(prefix='p', project=p.pk)
+    worker_forms = []
+    for w in ws:
+        worker_forms.append(WorkerReviewForm(prefix=('w%i' % w.pk), worker=w.pk))
+
+    if request.method == 'POST':
+        pass
+
+    return render_to_response("pm/project_review.html", {'project': project, 'project_form' : project_form, 'worker_forms': worker_forms }, context)

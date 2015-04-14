@@ -5,11 +5,9 @@ urlpatterns = patterns(
     '',
     url(r'^$', Index.as_view(), name='index'),
     url(r'^project/new', create_project, name='project-new'),
-    url(r'^project/(?P<pk>\d+)/edit', EditProject.as_view(), name='project-edit'),
     url(r'^project/(?P<pk>\d+)$', ProjectDetailView.as_view(), name='project-detail'),
     url(r'^person/(?P<pk>\d+)$', PersonDetailView.as_view(), name='person-detail'),
     url(r'^task/new$', create_task, name='task-new'),
     url(r'^get_users$', get_users, name='get-users'),
-    url(r'^review/project/(?P<pk>\d+)$', review_project, name='review-project'),
-    url(r'^review/worker/(?P<pk>\d+)$', review_worker, name='review-worker'),
+    url(r'^review/(?P<project>\d+)?$', reviews, name='reviews'),
 )

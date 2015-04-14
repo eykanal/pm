@@ -1,0 +1,43 @@
+{% extends "pm/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Project Review{% endblock %}
+
+{% block content-header %}Review Completed Projects{% endblock %}
+
+{% block content %}
+{% if project_empty %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-danger alert-dismissable">
+            <h4>Problem!</h4>
+            <p>This page was called without a project. Please verify the link. If everything looks OK, please contact the site administrator.</p>
+        </div>
+    </div>
+</div>
+{% elif project_active %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-danger alert-dismissable">
+            <h4>Problem!</h4>
+            <p>This project is still active and cannot yet be reviewed.</p>
+        </div>
+    </div>
+</div>
+{% else %}
+<form action="{% url 'pm:reviews' project=project %}" id="reviews">
+{% crispy project_form %}
+{% for worker_form in worker_forms %}
+    {% crispy worker_form %}
+{% endfor %}
+    <div class="row">
+        <div class="col-md-12">
+            <input type="submit" value="Submit">
+        </div>
+    </div>
+</form>
+{% endif %}
+{% endblock %}
+
+{% block custom_js %}
+{% endblock %}
