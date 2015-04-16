@@ -5,6 +5,8 @@
 
 {% block content-header %}<b>{{ project.name }}</b> ({{ project.program.name }}){% endblock content-header %}
 
+{% block section_id %}project-detail{% endblock section_id %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-8">
@@ -96,26 +98,7 @@
                 <h3 class="box-title">Tasks</h3>
             </div>
             <div class="box-body">
-                <table class="table">
-                    <tr>
-                        <th class="center vcenter" width="10%">Name</th>
-                        <th class="center vcenter">Description</th>
-                        <th class="center vcenter" width="10%">Start Date</th>
-                        <th class="center vcenter" width="10%">Due Date</th>
-                        <th class="center vcenter" width="10%">Completed Date</th>
-                        <th class="center vcenter" width="10%">Assigned To</th>
-                    </tr>
-                    {% for task in project.task_set.all %}
-                    <tr>
-                        <td>{{ task.name }}</td>
-                        <td>{{ task.description }}</td>
-                        <td class="center">{{ task.start_date }}</td>
-                        <td class="center">{{ task.due_date }}</td>
-                        <td class="center">{{ task.date_completed }}</td>
-                        <td>{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
+                {% include "pm/task.html" %}
             </div>
         </div>
     </div>
@@ -198,11 +181,44 @@ function process_submit (event) {
 
 $('#create-task').on('submit', process_submit);
 
-$('.datemask input')
+$('.datemask input, .datepicker input')
 // date masking
-    .inputmask('yyyy-mm-dd', {"placeholder": "yyyy-mm-dd"})
+    .inputmask('mm-dd-yyyy', {"placeholder": "mm-dd-yyyy"})
+    .daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true
+    });
+
 // add calendar icon
+$('.datemask input')
     .wrap('<div class="input-group"></div>')
     .before('<div class="input-group-addon"><i class="fa fa-calendar"></i></div>');
+
+$('tr.task td.status').hover(function() {
+    if( $(this).children('.controls').is(':hidden') ) {
+        $(this).children('small').toggle();
+        $(this).children('.edit').toggle();
+    }
+});
+
+$('tr.task td.status .edit').click(function() {
+    $(this).hide();
+    $(this).siblings('.controls').show();
+    $(this).parents('tr').children('td:not(.status)').children(':input').show();
+    $(this).parents('tr').children('td:not(.status)').children('.txt').hide();
+});
+
+$('tr.task td.status .controls button').click(function() {
+    if( $(this).hasClass('submit') ) {
+        i = $(this).parents('.task').find(':input').serialize();
+
+        // ajax goes here
+    }
+    $(this).parents('.controls').hide();
+    $(this).parents('.controls').siblings('.edit').show();
+    $(this).parents('tr').children('td:not(.status)').children(':input').hide();
+    $(this).parents('tr').children('td:not(.status)').children('.txt').show();
+});
+
 
 {% endblock %}

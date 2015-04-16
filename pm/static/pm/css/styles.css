@@ -7,7 +7,16 @@ table td.vcenter, table th.vcenter { vertical-align: middle; }
 .new-task { display: none; }
 .new-task .alert-success, .new-task .alert-danger { display: none; }
 .bold { font-weight: bold; }
+
 /* remove "hold down control" message that crispy_forms automatically generates */
 #create-task .controls p.help-block { display: none; }
+
 /* show mouse when hovering table rows */
 .hover { cursor: pointer; }
+
+/* hide edit and verify buttons on task page */
+#project-detail .task-list .edit,
+#project-detail .task-list .controls,
+#project-detail .task-list input,
+#project-detail .task-list textarea,
+#project-detail .task-list select { display: none; }

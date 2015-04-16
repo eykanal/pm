@@ -1,0 +1,57 @@
+<!--
+The goal here is to have each row be identifiable via it's class and/or ID and submit the contents via AJAX
+to whatever view. The following fiddle shows how to serialize such content:
+    http://jsfiddle.net/eykanal/p6hmbeyd/
+Made some good progress on getting this to work. See the below:
+    http://jsfiddle.net/eykanal/ovs8etq8/6/
+-->
+<table class="table task-list">
+    <tr>
+        <th></th>
+        <th class="center vcenter" width="10%">Name</th>
+        <th class="center vcenter">Description</th>
+        <th class="center vcenter" width="10%">Start Date</th>
+        <th class="center vcenter" width="10%">Due Date</th>
+        <th class="center vcenter" width="10%">Completed Date</th>
+        <th class="center vcenter" width="10%">Assigned To</th>
+    </tr>
+    {% for task in project.task_set.all %}
+    <tr class="task task-{{ task.pk }}">
+        <td class="status center vcenter">
+            <small class="badge bg-green">Active</small>
+            <span class="edit"><button type="button" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></button></span>
+            <span class="controls">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-xs btn-default bg-green submit"><i class="fa fa-check"></i></button>
+                    <button type="button" class="btn btn-xs btn-default bg-red cancel"><i class="fa fa-times"></i></button>
+                </div>
+            </span>
+        </td>
+
+        <td>
+            <span class="txt">{{ task.name }}</span>
+            <input type="text" name="name" value="{{ task.name }}">
+        </td>
+        <td>
+            <span class="txt">{{ task.description | linebreaksbr }}</span>
+            <textarea name="description" cols=50 rows=2>{{ task.description }}</textarea>
+        </td>
+        <td class="center datepicker">
+            <span class="txt">{{ task.start_date }}</span>
+            <input type="text" name="name" value="{{ task.start_date }}">
+        </td>
+        <td class="center datepicker">
+            <span class="txt">{{ task.due_date }}</span>
+            <input type="text" name="name" value="{{ task.due_date }}">
+        </td>
+        <td class="center datepicker">
+            <span class="txt">{{ task.date_complete }}</span>
+            <input type="text" name="name" value="{{ task.date_complete }}">
+        </td>
+        <td>
+            <span class="txt">{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+            <select multiple="multiple" name="taskworker"></select>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
