@@ -94,6 +94,22 @@ def create_task(request):
     return {'success': False, 'form_html': form_html}
 
 
+# edit a task via AJAX
+@json_view
+def edit_task(request):
+    print(request.POST)
+    form = TaskForm(request.POST, project_id=request.POST['project'])
+    if form.is_valid():
+        print "all's cool"
+        print(form.cleaned_data)
+        t = Task.objects.get(pk=form.cleaned_data['pk'])
+        print t
+    else:
+        print "dude you've got issues"
+        print form._errors
+    return {'success': True}
+
+
 @login_required()
 def create_project(request):
     context = RequestContext(request)

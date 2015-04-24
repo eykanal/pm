@@ -65,12 +65,14 @@ class ProjectForm(forms.Form):
 class TaskForm(forms.Form):
     project = forms.ModelChoiceField(queryset=Project.objects.all(), empty_label=None)
     name = forms.CharField()
-    start_date = forms.DateField()
-    due_date = forms.DateField(required=False)
+    start_date = forms.DateField(input_formats=['%m-%d-%Y'])
+    due_date = forms.DateField(input_formats=['%m-%d-%Y'], required=False)
+    date_complete = forms.DateField(input_formats=['%m-%d-%Y'], required=False)
     status = forms.ChoiceField(choices=Task.STATUS_CHOICES, initial=Task.ACTIVE)
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
     worker = forms.ModelMultipleChoiceField(queryset=People.objects.none())
     blocked_by = forms.ModelMultipleChoiceField(queryset=Task.objects.none(), required=False)
+    pk = forms.IntegerField(required=False)
 
     def __init__(self, *args, **kwargs):
         self.project_id = kwargs.pop('project_id')

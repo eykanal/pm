@@ -161,7 +161,7 @@ function process_submit (event) {
                     $('#create-task').on('submit', process_submit);  // need to bind the function to the new element
                     $('.datemask input')
                     // date masking
-                        .inputmask('yyyy-mm-dd', {"placeholder": "yyyy-mm-dd"})
+                        .inputmask('mm-dd-yyyy', {"placeholder": "mm-dd-yyyy"})
                     // add calendar icon
                         .wrap('<div class="input-group"></div>')
                         .before('<div class="input-group-addon"><i class="fa fa-calendar"></i></div>');
@@ -210,9 +210,26 @@ $('tr.task td.status .edit').click(function() {
 
 $('tr.task td.status .controls button').click(function() {
     if( $(this).hasClass('submit') ) {
-        i = $(this).parents('.task').find(':input').serialize();
-
-        // ajax goes here
+        var i = $(this).parents('.task').find(':input').serialize();
+        console.log(i);
+        
+        $.ajax({
+                url: "{% url 'pm:task-edit' %}",
+                type: "POST",
+                dataType: "json",
+                data: i,
+                success: function(data) {
+                    if(!(data['success'])) {
+                        console.log('failed');    
+                    } else {
+                        console.log('success');
+                    }
+                },
+                error: function(xhr,errmsg,err) {
+                    $('.new-task .alert-danger').show();
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
     }
     $(this).parents('.controls').hide();
     $(this).parents('.controls').siblings('.edit').show();
@@ -220,5 +237,7 @@ $('tr.task td.status .controls button').click(function() {
     $(this).parents('tr').children('td:not(.status)').children('.txt').show();
 });
 
+{% for task in project.task_set.all %}
+$(".task-{{ task.pk }} select[name='worker']").val([{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.pk }}{% if not forloop.last %}, {% endif %}{% endfor %}]);{% endfor %}
 
 {% endblock %}
