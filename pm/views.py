@@ -37,15 +37,12 @@ class Index(LoginRequiredMixin, TemplateView):
     template_name = "pm/index.html"
 
 
-class ProjectDetailView(LoginRequiredMixin, DetailView):
-    model = Project
-    template_name = "pm/project_detail.html"
-
-    def get_context_data(self, **kwargs):
-            kwargs['project'] = kwargs['object']
-            del kwargs['object']
-            kwargs['taskform'] = TaskForm(project_id=self.kwargs['pk'], initial={'project': self.kwargs['pk']})
-            return super(ProjectDetailView, self).get_context_data(**kwargs)
+@login_required()
+def project_detail(request, pk):
+    context = RequestContext(request)
+    project = Project.objects.get(pk=pk)
+    taskform = TaskForm(project_id=pk, initial={'project': pk})
+    return render_to_response("pm/project_detail.html", {'project': project, 'taskform': taskform}, context)
 
 
 class PersonDetailView(LoginRequiredMixin, DetailView):
