@@ -59,7 +59,7 @@ Made some good progress on getting this to work. See the below:
             </select>
         </td>
         <td>
-            <span class="txt">{% for t in task.blocking_task_set.all %}{{ forloop.counter }}{{ t }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+            <span class="txt">{% for t in task.blocking_task.all %}{{ t.blocked_task.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
         </td>
     </tr>
     {% endfor %}
