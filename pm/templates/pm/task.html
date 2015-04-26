@@ -55,11 +55,14 @@ Made some good progress on getting this to work. See the below:
         <td>
             <span class="txt">{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
             <select multiple="multiple" name="worker" size="3">
-                {% for taskworker in task.taskworker_set.all %}<option value="{{ taskworker.worker.person.pk }}">{{ taskworker.worker.person.full_name }}</option>{% endfor %}
+                {% for worker in task.project.worker_set.all %}<option value="{{ worker.person.pk }}">{{ worker.person.full_name }}</option>{% endfor %}
             </select>
         </td>
         <td>
             <span class="txt">{% for t in task.blocking_task.all %}{{ t.blocked_task.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+            <select multiple="multiple" name="dependency" size="3">
+                {% for t in task.project.task_set.all %}{% if t.pk != task.pk %}<option value="{{ t.pk }}">{{ t.name }}</option>{% endif %}{% endfor %}
+            </select>
         </td>
     </tr>
     {% endfor %}

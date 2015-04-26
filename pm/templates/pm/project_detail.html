@@ -239,5 +239,6 @@ $('tr.task td.status .controls button').click(function() {
 
 {% for task in project.task_set.all %}
 $(".task-{{ task.pk }} select[name='worker']").val([{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.pk }}{% if not forloop.last %}, {% endif %}{% endfor %}]);{% endfor %}
-
+{% for task in project.task_set.all %}
+$(".task-{{ task.pk }} select[name='dependency']").val([{% for t in task.blocking_task.all %}{{ t.blocked_task.pk }}{% if not forloop.last %}, {% endif %}{% endfor %}]);{% endfor %}
 {% endblock %}
