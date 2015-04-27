@@ -29,9 +29,12 @@ pm/migrations/0009_auto_20150401_0120.py
 pm/migrations/0010_group_internal.py
 pm/migrations/0011_auto_20150406_0246.py
 pm/migrations/__init__.py
+pm/static/.DS_Store
+pm/static/pm/.DS_Store
 pm/static/pm/css/AdminLTE.css
 pm/static/pm/css/bootstrap.min.css
 pm/static/pm/css/datatables.min.css
+pm/static/pm/css/daterangepicker-bs3.css
 pm/static/pm/css/font-awesome.min.css
 pm/static/pm/css/ionicons.min.css
 pm/static/pm/css/select2.min.css
@@ -50,11 +53,13 @@ pm/static/pm/js/AdminLTE.js
 pm/static/pm/js/bootstrap.min.js
 pm/static/pm/js/custom.js
 pm/static/pm/js/datatables.min.js
+pm/static/pm/js/daterangepicker.js
 pm/static/pm/js/html5shiv-printshiv.min.js.html
 pm/static/pm/js/html5shiv.min.js.html
 pm/static/pm/js/jquery.cookie.min.js
 pm/static/pm/js/jquery.inputmask.bundle.min.js
 pm/static/pm/js/jquery.min.js
+pm/static/pm/js/moment.min.js
 pm/static/pm/js/respond.min.js
 pm/static/pm/js/select2.js
 pm/static/pm/js/select2.min.js
@@ -63,3 +68,4 @@ pm/templates/pm/index.html
 pm/templates/pm/person_detail.html
 pm/templates/pm/project_detail.html
 pm/templates/pm/project_new.html
+pm/templates/pm/task.html
