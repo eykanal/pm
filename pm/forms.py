@@ -71,14 +71,14 @@ class TaskForm(forms.Form):
     status = forms.ChoiceField(choices=Task.STATUS_CHOICES, initial=Task.ACTIVE)
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
     worker = forms.ModelMultipleChoiceField(queryset=People.objects.none())
-    blocked_by = forms.ModelMultipleChoiceField(queryset=Task.objects.none(), required=False)
+    blocked_task = forms.ModelMultipleChoiceField(queryset=Task.objects.none(), required=False)
     pk = forms.IntegerField(required=False)
 
     def __init__(self, *args, **kwargs):
         self.project_id = kwargs.pop('project_id')
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['worker'].queryset = People.objects.filter(Q(worker__project=self.project_id) & Q(group__internal=True))
-        self.fields['blocked_by'].queryset = Task.objects.filter(project=self.project_id)
+        self.fields['blocked_task'].queryset = Task.objects.filter(project=self.project_id)
 
         self.helper = FormHelper()
         self.helper.form_class = "form-horizontal"

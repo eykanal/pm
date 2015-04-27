@@ -1,11 +1,6 @@
 tr.project-inactive { display: none; }
 tr.not-mine { display: none; }
 
-ol { padding-left: 15px; margin: 0px; }
-table td.center, table th.center { text-align: center; }
-table td.vcenter, table th.vcenter { vertical-align: middle; }
-.new-task { display: none; }
-.new-task .alert-success, .new-task .alert-danger { display: none; }
 .bold { font-weight: bold; }
 
 /* remove "hold down control" message that crispy_forms automatically generates */
@@ -15,6 +10,19 @@ table td.vcenter, table th.vcenter { vertical-align: middle; }
 .hover { cursor: pointer; }
 
 /* hide edit and verify buttons on task page */
+#project-detail ol { padding-left: 15px; margin: 0px; }
+#project-detail table td.center,
+#project-detail table th.center { text-align: center; }
+
+#project-detail table td.vcenter,
+#project-detail table th.vcenter { vertical-align: middle; }
+
+#project-detail .new-task { display: none; }
+
+#project-detail .new-task .alert-success,
+#project-detail .new-task .alert-danger,
+#project-detail .tasks .alert-success,
+#project-detail .tasks .alert-danger,
 #project-detail .task-list .edit,
 #project-detail .task-list .controls,
 #project-detail .task-list input,

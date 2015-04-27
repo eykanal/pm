@@ -97,17 +97,37 @@ def create_task(request):
 # edit a task via AJAX
 @json_view
 def edit_task(request):
-    print(request.POST)
     form = TaskForm(request.POST, project_id=request.POST['project'])
     if form.is_valid():
-        print "all's cool"
-        print(form.cleaned_data)
+
         t = Task.objects.get(pk=form.cleaned_data['pk'])
-        print t
-    else:
-        print "dude you've got issues"
-        print form._errors
-    return {'success': True}
+        t.name = form.cleaned_data['name']
+        t.description = form.cleaned_data['description']
+        t.start_date = form.cleaned_data['start_date']
+        t.due_date = form.cleaned_data['due_date']
+        t.date_complete = form.cleaned_data['date_complete']
+        t.save()
+
+        TaskWorker.objects.filter(task=t.pk).delete()
+        for w in form.cleaned_data['worker']:
+            tw = TaskWorker(
+                task=Task.objects.get(pk=t.id),
+                worker=Worker.objects.get(person=w, project=form.cleaned_data['project']),
+            )
+            tw.save()
+
+        TaskDependency.objects.filter(blocking_task=t.pk).delete()
+        if form.cleaned_data.get('blocked_task'):
+            for d in form.cleaned_data['blocked_task']:
+                td = TaskDependency(
+                    blocking_task=t,
+                    blocked_task=d,
+                )
+                td.save()
+
+        return {'success': True}
+
+    return {'failure': '%s' % form._errors}
 
 
 @login_required()
@@ -156,7 +176,6 @@ def get_users(request):
     everyone = People.objects.filter(Q(name__first_name__contains=request.GET['q']) | Q(name__last_name__contains=request.GET['q']))
     for p in everyone:
         response.append({"id": p.pk, "text": p.full_name()})
-    # return {'items': [{'id': 'bob', 'text': 'joe'}, {'id': 'frank', 'text': 'me'}]}
     return {'items': response}
 
 

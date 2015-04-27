@@ -60,7 +60,7 @@ Made some good progress on getting this to work. See the below:
         </td>
         <td>
             <span class="txt">{% for t in task.blocking_task.all %}{{ t.blocked_task.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
-            <select multiple="multiple" name="dependency" size="3">
+            <select multiple="multiple" name="blocked_task" size="3">
                 {% for t in task.project.task_set.all %}{% if t.pk != task.pk %}<option value="{{ t.pk }}">{{ t.name }}</option>{% endif %}{% endfor %}
             </select>
         </td>
