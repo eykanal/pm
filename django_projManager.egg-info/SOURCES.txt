@@ -29,8 +29,6 @@ pm/migrations/0009_auto_20150401_0120.py
 pm/migrations/0010_group_internal.py
 pm/migrations/0011_auto_20150406_0246.py
 pm/migrations/__init__.py
-pm/static/.DS_Store
-pm/static/pm/.DS_Store
 pm/static/pm/css/AdminLTE.css
 pm/static/pm/css/bootstrap.min.css
 pm/static/pm/css/datatables.min.css

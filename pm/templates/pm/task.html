@@ -13,8 +13,8 @@ Made some good progress on getting this to work. See the below:
         <th class="center vcenter" width="10%">Start Date</th>
         <th class="center vcenter" width="10%">Due Date</th>
         <th class="center vcenter" width="10%">Completed Date</th>
-        <th class="center vcenter" width="10%">Assigned To</th>
-        <th class="center vcenter" width="10%">Blocking</th>
+        <th class="center vcenter" width="10%">Assigned To...</th>
+        <th class="center vcenter" width="10%">Blocked by...</th>
     </tr>
     {% for task in project.task_set.all %}
     <tr class="task task-{{ task.pk }}">
@@ -59,8 +59,8 @@ Made some good progress on getting this to work. See the below:
             </select>
         </td>
         <td>
-            <span class="txt">{% for t in task.blocking_task.all %}{{ t.blocked_task.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
-            <select multiple="multiple" name="blocked_task" size="3">
+            <span class="txt">{% for t in task.blocked_task.all %}{{ t.blocking_task.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+            <select multiple="multiple" name="blocked_by" size="3">
                 {% for t in task.project.task_set.all %}{% if t.pk != task.pk %}<option value="{{ t.pk }}">{{ t.name }}</option>{% endif %}{% endfor %}
             </select>
         </td>

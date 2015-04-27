@@ -116,12 +116,12 @@ def edit_task(request):
             )
             tw.save()
 
-        TaskDependency.objects.filter(blocking_task=t.pk).delete()
-        if form.cleaned_data.get('blocked_task'):
-            for d in form.cleaned_data['blocked_task']:
+        TaskDependency.objects.filter(blocked_task=t.pk).delete()
+        if form.cleaned_data.get('blocked_by'):
+            for d in form.cleaned_data['blocked_by']:
                 td = TaskDependency(
-                    blocking_task=t,
-                    blocked_task=d,
+                    blocking_task=d,
+                    blocked_task=t,
                 )
                 td.save()
 

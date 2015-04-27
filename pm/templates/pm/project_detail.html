@@ -222,11 +222,11 @@ $('tr.task td.status .edit').click(function() {
 });
 
 $('tr.task td.status .controls button').click(function() {
-    if( $(this).hasClass('submit') ) {
-        var controls = $(this).parents('.controls');
-        var this_tr = $(this).parents('tr');
-        var i = $(this).parents('.task').find(':input').serialize();
+    var controls = $(this).parents('.controls');
+    var this_tr = $(this).parents('tr');
+    var i = $(this).parents('.task').find(':input').serialize();
 
+    if( $(this).hasClass('submit') ) {
         $.ajax({
                 url: "{% url 'pm:task-edit' %}",
                 type: "POST",
@@ -254,11 +254,17 @@ $('tr.task td.status .controls button').click(function() {
                     console.log(xhr.status + ": " + xhr.responseText);
                 }
             });
+    } else {
+    // Cancel pushed
+        controls.hide();
+        controls.siblings('.edit').show();
+        this_tr.children('td:not(.status)').children(':input').hide();
+        this_tr.children('td:not(.status)').children('.txt').show();
     }
 });
 
 {% for task in project.task_set.all %}
 $(".task-{{ task.pk }} select[name='worker']").val([{% for taskworker in task.taskworker_set.all %}{{ taskworker.worker.person.pk }}{% if not forloop.last %}, {% endif %}{% endfor %}]);{% endfor %}
 {% for task in project.task_set.all %}
-$(".task-{{ task.pk }} select[name='blocked_task']").val([{% for t in task.blocking_task.all %}{{ t.blocked_task.pk }}{% if not forloop.last %}, {% endif %}{% endfor %}]);{% endfor %}
+$(".task-{{ task.pk }} select[name='blocked_by']").val([{% for t in task.blocked_task.all %}{{ t.blocking_task.pk }}{% if not forloop.last %}, {% endif %}{% endfor %}]);{% endfor %}
 {% endblock %}
