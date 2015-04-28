@@ -17,8 +17,8 @@ tr.not-mine { display: none; }
 #project-detail table td.vcenter,
 #project-detail table th.vcenter { vertical-align: middle; }
 
-#project-detail .new-task { display: none; }
-
+#project-detail .details .edit-project,
+#project-detail .new-task,
 #project-detail .new-task .alert-success,
 #project-detail .new-task .alert-danger,
 #project-detail .tasks .alert-success,

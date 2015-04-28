@@ -19,10 +19,13 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-solid">
+        <div class="box box-solid details">
             <div class="box-header">
                 <i class="fa fa-list-ul"></i>
                 <h3 class="box-title">Project Details</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn btn-default edit-project"><i class="fa fa-pencil"></i></button>
+                </div>
             </div>
             <div class="box-body">
                 <table class="table table-condensed">
@@ -213,6 +216,10 @@ $('tr.task td.status').hover(function() {
         $(this).children('.edit').toggle();
     }
 });
+
+$('.details').hover(function() { $(this).find('button.edit-project').show(); },
+                    function() { $(this).find('button.edit-project').hide(); });
+$('button.edit-project').click(function() { window.open('{% url 'admin:pm_project_change' project.id %}', '_blank'); });
 
 $('tr.task td.status .edit').click(function() {
     $(this).hide();
