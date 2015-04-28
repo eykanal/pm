@@ -7,7 +7,7 @@ from crispy_forms.layout import Layout, Submit, Div, Field
 
 class ProjectForm(forms.Form):
     name = forms.CharField(max_length=500)
-    requester = forms.ModelChoiceField(People.objects.filter(group__internal=True))
+    requester = forms.ModelChoiceField(People.objects.all())
     project_manager = forms.ModelChoiceField(People.objects.filter(group__internal=True))
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 10, 'cols': 60}))
     start_date = forms.DateField()
