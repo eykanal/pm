@@ -7,16 +7,17 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <div class="box">
+        <div class="box box-solid box-primary">
             <div class="box-header">
                 <h3 class="box-title">Projects</h3>
                 <div class="box-tools pull-right">
-                    <button class="btn btn-default btn-xs not-mine">Show not mine</button>
-                    <button class="btn btn-default btn-xs project-inactive">Show non-active</button>
+                    <button class="btn btn-primary btn-xs not-mine">Show not mine</button>
+                    <button class="btn btn-primary btn-xs project-inactive">Show non-active</button>
                 </div>
             </div>
-            <div class="box-body no-padding">
+            <div class="box-body table-responsive">
                 <table class="table table-hover" id="projects-table">
+                    <thead>
                     <tr>
                         <th>Project</th>
                         <th>Customer</th>
@@ -26,6 +27,8 @@
                         <th>Est. End Date</th>
                         <th></th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {% for project in projects %}
                     <tr class="{% if not project.project_manager.name = user %}not-mine {% endif %}{% if project.status != project.ACTIVE %}project-inactive {% endif %}">
                         <td><a href="{% url 'pm:project-detail' project.id %}"></a>{{ project.name }}</td>
@@ -37,6 +40,7 @@
                         <td><small class="badge {% if project.status = project.ACTIVE %}bg-green{% elif project.status = project.COMPLETED %}bg-blue{% elif project.status = project.ON_HOLD %}{% else %}bg-yellow{% endif %}">{{ project.get_status_display }}</small></td>
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -115,4 +119,8 @@ $("button.project-inactive").on("click", function() {
         $("button.project-inactive:contains('Hide')").text( $("button.project-inactive:contains('Hide')").text().replace(/Hide/g, "Show") );
     }
 });
+
+$(document).ready( function () {
+    $('#projects-table').DataTable();
+} );
 {% endblock custom_js %}
