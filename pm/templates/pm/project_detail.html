@@ -10,7 +10,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-8">
-        <div class="box box-solid">
+        <div class="box">
             <div class="box-header">
                 <i class="ion ion-clipboard"></i>
                 <h3 class="box-title">Description</h3>
@@ -19,12 +19,12 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="box box-solid details">
+        <div class="box details">
             <div class="box-header">
                 <i class="fa fa-list-ul"></i>
                 <h3 class="box-title">Project Details</h3>
                 <div class="box-tools pull-right">
-                    <button class="btn btn btn-default edit-project"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn btn-default btn-sm edit-project"><i class="fa fa-pencil"></i></button>
                 </div>
             </div>
             <div class="box-body">
@@ -108,10 +108,13 @@
         </div>
     </div>
     <div class="col-md-12">
-        <div class="box box-solid">
+        <div class="box">
             <div class="box-header">
                 <i class="fa fa-tasks"></i>
                 <h3 class="box-title">Tasks</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-default btn-sm add-task-button"><i class="fa fa-plus"></i> Add task</button>
+                </div>
             </div>
             <div class="box-body">
                 {% include "pm/task.html" %}
@@ -124,19 +127,25 @@
 {% block custom_js %}
 "use strict";
 
+var taskFunc = function() {
+    $(".new-task").show();
+    $(".new-task .box").show();
+    $(".new-task .alert-danger").hide();
+    $(".new-task .alert-success").hide();
+}
+
 $(document).keydown(function(e) {
     // "n" or "N" opens new task window
     if(e.which == 78) {
-        $(".new-task").show();
-        $(".new-task .box").show();
-        $(".new-task .alert-danger").hide();
-        $(".new-task .alert-success").hide();
+        taskFunc();
     }
+
     // "esc" hides new task window
     if(e.which == 27) {
         $(".new-task").hide();
     }
 });
+$('.add-task-button').on('click', taskFunc);
 
 //
 // AJAX CONTENT
@@ -217,6 +226,9 @@ $('tr.task td.status').hover(function() {
     }
 });
 
+// remove extra padding around checkboxes
+$('.new-task .checkbox').css({'padding-top': '0', 'padding-bottom': '7px'}).parents('div.form-group').css({'margin-bottom': '0'});
+
 $('.details').hover(function() { $(this).find('button.edit-project').show(); },
                     function() { $(this).find('button.edit-project').hide(); });
 $('button.edit-project').click(function() { window.open('{% url 'admin:pm_project_change' project.id %}', '_blank'); });
@@ -224,7 +236,7 @@ $('button.edit-project').click(function() { window.open('{% url 'admin:pm_projec
 $('tr.task td.status .edit').click(function() {
     $(this).hide();
     $(this).siblings('.controls').show();
-    $(this).parents('tr').children('td:not(.status)').children(':input').show();
+    $(this).parents('tr').children('td:not(.status)').children(':input, .input-help').show();
     $(this).parents('tr').children('td:not(.status)').children('.txt').hide();
 });
 
@@ -248,7 +260,7 @@ $('tr.task td.status .controls button').click(function() {
                     } else {
                         controls.hide();
                         controls.siblings('.edit').show();
-                        this_tr.children('td:not(.status)').children(':input').hide();
+                        this_tr.children('td:not(.status)').children(':input, .input-help').hide();
                         this_tr.children('td:not(.status)').children('.txt').show();
 
                         $('.tasks .alert-danger').empty();
@@ -265,7 +277,7 @@ $('tr.task td.status .controls button').click(function() {
     // Cancel pushed
         controls.hide();
         controls.siblings('.edit').show();
-        this_tr.children('td:not(.status)').children(':input').hide();
+        this_tr.children('td:not(.status)').children(':input, .input-help').hide();
         this_tr.children('td:not(.status)').children('.txt').show();
     }
 });

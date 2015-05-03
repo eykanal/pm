@@ -69,7 +69,8 @@ def create_task(request):
             description=form.cleaned_data['description'],
             start_date=form.cleaned_data['start_date'],
             due_date=form.cleaned_data['due_date'],
-            status=form.cleaned_data['status'])
+            status_on_hold=form.cleaned_data['status_on_hold'],
+            status_waiting=form.cleaned_data['status_waiting'],)
         t.save()
 
         # save workers (note that "w" here is a Person, not a Worker)
@@ -106,6 +107,8 @@ def edit_task(request):
         t.start_date = form.cleaned_data['start_date']
         t.due_date = form.cleaned_data['due_date']
         t.date_complete = form.cleaned_data['date_complete']
+        t.status_on_hold = form.cleaned_data['status_on_hold']
+        t.status_waiting = form.cleaned_data['status_waiting']
         t.save()
 
         TaskWorker.objects.filter(task=t.pk).delete()

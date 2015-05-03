@@ -26,5 +26,8 @@ tr.not-mine { display: none; }
 #project-detail .task-list .edit,
 #project-detail .task-list .controls,
 #project-detail .task-list input,
+#project-detail .task-list .input-help,
 #project-detail .task-list textarea,
 #project-detail .task-list select { display: none; }
+
+#project-detail .task-list none-date { text

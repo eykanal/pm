@@ -167,19 +167,6 @@ class Worker(models.Model):
 
 
 class Task(models.Model):
-    QUEUED = 'Q'
-    ACTIVE = 'A'
-    ON_HOLD = 'O'
-    WAITING = 'W'
-    COMPLETED = 'C'
-    STATUS_CHOICES = (
-        (QUEUED, 'Queued'),
-        (ACTIVE, 'Active'),
-        (ON_HOLD, 'On hold'),
-        (WAITING, 'Waiting on customer'),
-        (COMPLETED, 'Completed')
-    )
-
     project = models.ForeignKey(Project)
     name = models.CharField(max_length=500)
     description = models.TextField()
@@ -187,7 +174,8 @@ class Task(models.Model):
     start_date = models.DateField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
     date_complete = models.DateField(null=True, blank=True)
-    status = models.CharField(choices=STATUS_CHOICES, default=QUEUED, max_length=1)
+    status_on_hold = models.BooleanField(default=False)
+    status_waiting = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('name', 'project',)
@@ -198,6 +186,18 @@ class Task(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.name, self.project.name)
+
+    def status(self):
+        if self.date_complete is not None:
+            return 'Complete'
+        elif self.status_waiting:
+            return 'Waiting on\n external party'
+        elif self.status_on_hold:
+            return 'On hold'
+        elif TaskDependency.objects.filter(blocked_task=self).filter(blocking_task__date_complete=None).exists():
+            return 'Queued'
+        else:
+            return 'Active'
 
 
 class TaskDependency(models.Model):

@@ -2,7 +2,7 @@ from django import forms
 from django.db.models import Q
 from pm.models import Program, Project, People, Task, Worker, TaskDependency
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Div, Field
+from crispy_forms.layout import Layout, Submit, Div, Field, HTML
 
 
 class ProjectForm(forms.Form):
@@ -68,7 +68,8 @@ class TaskForm(forms.Form):
     start_date = forms.DateField(input_formats=['%m-%d-%Y'])
     due_date = forms.DateField(input_formats=['%m-%d-%Y'], required=False)
     date_complete = forms.DateField(input_formats=['%m-%d-%Y'], required=False)
-    status = forms.ChoiceField(choices=Task.STATUS_CHOICES, initial=Task.ACTIVE)
+    status_on_hold = forms.BooleanField(required=False, label='On hold')
+    status_waiting = forms.BooleanField(required=False, label='Waiting on external party')
     description = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'cols': 60}), required=False)
     worker = forms.ModelMultipleChoiceField(queryset=People.objects.none())
     blocked_by = forms.ModelMultipleChoiceField(queryset=Task.objects.none(), required=False)
@@ -92,7 +93,7 @@ class TaskForm(forms.Form):
                 Div(Field('name'), css_class='col-lg-3 col-sm-6'),
                 Div(Field('start_date'), css_class='col-lg-3 col-sm-6 datemask'),
                 Div(Field('due_date'), css_class='col-lg-3 col-sm-6 datemask'),
-                Div(Field('status'), css_class='col-lg-3 col-sm-6'),
+                Div(Field('status_on_hold'), Field('status_waiting'), css_class='col-lg-3 col-sm-6'),
                 css_class='row',
             ),
             Div(
