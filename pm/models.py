@@ -190,12 +190,12 @@ class Task(models.Model):
     def status(self):
         if self.date_complete is not None:
             return 'Complete'
+        elif TaskDependency.objects.filter(blocked_task=self).filter(blocking_task__date_complete=None).exists():
+            return 'Queued'
         elif self.status_waiting:
             return 'Waiting on\n external party'
         elif self.status_on_hold:
             return 'On hold'
-        elif TaskDependency.objects.filter(blocked_task=self).filter(blocking_task__date_complete=None).exists():
-            return 'Queued'
         else:
             return 'Active'
 

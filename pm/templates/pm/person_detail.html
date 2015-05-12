@@ -7,37 +7,42 @@
 {% block content %}
 <div class="row">
     <div class="col-md-4">
-        <div class="box box-solid">
+        <div class="box box-solid box-primary">
             <div class="box-header">
                 <i class="fa fa-briefcase"></i>
                 <h3 class="box-title">Projects</h3>
             </div>
             <div class="box-body">
                 <table class="table">
+                    <thead>
                     <tr>
                         <th class="vcenter">Project</th>
-                        <th class="center vcenter">Lead</th>
                         <th class="center vcenter">Team Members</th>
+                        <th class="center vcenter">Status</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {% for worker in person.worker_set.all %}
                     <tr>
-                        <td>{{ worker.project.name }}</td>
-                        <td class="center">{% if worker.owner %}<i class="fa fa-check"></i>{% else %}&nbsp;{% endif %}</td>
+                        <td><a href="{% url 'pm:project-detail' worker.project.id %}"></a>{{ worker.project.name }}</td>
                         <td>{% for w in worker.project.worker_set.all %}{{ w.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                        <td><small class="badge {% if worker.project.status = worker.project.ACTIVE %}bg-green{% elif worker.project.status = worker.project.COMPLETED %}bg-blue{% elif worker.project.status = worker.project.ON_HOLD %}{% else %}bg-yellow{% endif %}">{{ worker.project.get_status_display }}</small></td>
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
     <div class="col-md-8">
-        <div class="box box-solid">
+        <div class="box box-solid box-primary">
             <div class="box-header">
                 <i class="fa fa-tasks"></i>
                 <h3 class="box-title">Tasks</h3>
             </div>
             <div class="box-body">
                 <table class="table">
+                    <thead>
                     <tr>
                         <th class="center vcenter" width="12%">Project</th>
                         <th class="center vcenter">Task Title & Description</th>
@@ -45,17 +50,22 @@
                         <th class="center vcenter" width="12%">Due</th>
                         <th class="center vcenter" width="12%">Assigned To...</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {% for worker in person.worker_set.all %}
                     {% for t in worker.taskworker_set.all %}
+                    {% if not t.status = "Complete" %}
                     <tr>
-                        <td>{{ t.task.project.name }}</td>
-                        <td><b>{{ t.task.name }}</b> - {{ t.task.description }}</td>
+                        <td><a href="{% url 'pm:project-detail' t.task.project.id %}"></a>{{ t.task.project.name }}</td>
+                        <td><b>{{ t.task.name }}</b>{% if t.task.description %}<br>{{ t.task.description | linebreaksbr }}{% endif %}</td>
                         <td class="center">{{ t.task.start_date | date:"M. jS" }}</td>
                         <td class="center">{{ t.task.due_date | date:"M. jS" }}</td>
                         <td>{% for w in t.task.taskworker_set.all %}{{ w.worker.person.full_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
                     {% endfor %}
+                    <tbody>
                 </table>
             </div>
         </div>
@@ -63,5 +73,16 @@
 </div>
 {% endblock content %}
 
-{% debug %}
+{% block custom_js %}
+$("tr").has("a").click(function() {
+    window.location = $(this).find('a').attr('href');
+}).hover(function() {
+    $(this).toggleClass('hover');
+});
+
+$(function () {
+    $('table').DataTable();
+});
+
+{% endblock custom_js %}
 
