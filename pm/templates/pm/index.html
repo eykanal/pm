@@ -4,6 +4,8 @@
 
 {% block content-header %}Dashboard{% endblock content-header %}
 
+{% block section_id %}index{% endblock section_id %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-12">
@@ -11,21 +13,22 @@
             <div class="box-header">
                 <h3 class="box-title">Projects</h3>
                 <div class="box-tools pull-right">
-                    <button class="btn btn-primary btn-xs not-mine">Show not mine</button>
-                    <button class="btn btn-primary btn-xs project-inactive">Show non-active</button>
+                    <!-- <button class="btn btn-primary btn-xs not-mine">Show not mine</button> -->
+                    <!-- <button class="btn btn-primary btn-xs project-inactive">Show non-active</button> -->
                 </div>
             </div>
             <div class="box-body table-responsive">
                 <table class="table table-hover" id="projects-table">
                     <thead>
                     <tr>
-                        <th>Project</th>
-                        <th>Customer</th>
-                        <th>People</th>
-                        <th>Tasks <small>(completed/total)</small></th>
-                        <th>Next Task</th>
-                        <th>Est. End Date</th>
-                        <th></th>
+                        <th class='proj'>Project</th>
+                        <th class='cust'>Customer</th>
+                        <th class='pm'>Proj. Mgr.</th>
+                        <th class='people'>People</th>
+                        <th class='tasks'>Tasks <small>(completed/total)</small></th>
+                        <th class='ntask'>Next Task</th>
+                        <th class='end'>Est. End Date</th>
+                        <th class='status'>Status</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,10 +36,11 @@
                     <tr class="{% if not project.project_manager.name = user %}not-mine {% endif %}{% if project.status != project.ACTIVE %}project-inactive {% endif %}">
                         <td><a href="{% url 'pm:project-detail' project.id %}"></a>{{ project.name }}</td>
                         <td>{{ project.requester.full_name }} ({{ project.requester.group.name }})</td>
+                        <td>{{ project.project_manager.full_name }}</td>
                         <td>{% for worker in project.worker_set.all %}{% if worker.owner %}<span class="bold">{% endif %}{{ worker.person.full_name }}{% if worker.owner %}</span>{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
                         <td>{{ project.completed_tasks.count }} - {{ project.task_set.all.count }}</td>
-                        <td>{% if project.next_tasks.count == 1 %}{% for task in project.next_tasks %}{{ task.name }} ({{ task.due_date | default_if_none:"<span class='text-yellow'>No due date</span>" }}){% endfor %}{% elif project.next_tasks.count == 0 %}<i class="text-yellow">No upcoming tasks defined</i>{% else %}<ol>{% for task in project.next_tasks %}<li>{{ task.name }} ({{ task.due_date }})</li>{% endfor %}</ol>{% endif %}</td>
-                        <td>{{ project.est_completion_date }}</td>
+                        <td{% if project.next_tasks.count = 0 %} data-order="zzzzzzzz"{% endif %}>{% if project.next_tasks.count == 1 %}{% for task in project.next_tasks %}{{ task.name }} ({{ task.due_date | default_if_none:"<span class='text-yellow'>No due date</span>" }}){% endfor %}{% elif project.next_tasks.count == 0 %}<i class="text-yellow">No upcoming tasks defined</i>{% else %}<ol>{% for task in project.next_tasks %}<li>{{ task.name }} ({{ task.due_date }})</li>{% endfor %}</ol>{% endif %}</td>
+                        <td data-order="{{ project.est_completion_date | date:"U" | default_if_none:"" }}">{{ project.est_completion_date }}</td>
                         <td><small class="badge {% if project.status = project.ACTIVE %}bg-green{% elif project.status = project.COMPLETED %}bg-blue{% elif project.status = project.ON_HOLD %}{% else %}bg-yellow{% endif %}">{{ project.get_status_display }}</small></td>
                     </tr>
                     {% endfor %}
@@ -95,29 +99,6 @@ $("tr").has("a").click(function() {
     window.location = $(this).find('a').attr('href');
 }).hover(function() {
     $(this).toggleClass('hover');
-});
-
-$("button.not-mine").on("click", function() {
-    $("tr.not-mine").toggle();
-
-    if( $("button.not-mine:contains('Show')").length ) {
-        $("tr.not-mine").show();
-        $("button.not-mine:contains('Show')").text( $("button.not-mine:contains('Show')").text().replace(/Show/, "Hide") );
-    } else {
-        $("tr.not-mine").hide();
-        $("button.not-mine:contains('Hide')").text( $("button.not-mine:contains('Hide')").text().replace(/Hide/g, "Show") );
-    }
-});
-
-$("button.project-inactive").on("click", function() {
-
-    if( $("button.project-inactive:contains('Show')").length ) {
-        $("tr.project-inactive").show();
-        $("button.project-inactive:contains('Show')").text( $("button.project-inactive:contains('Show')").text().replace(/Show/, "Hide") );
-    } else {
-        $("tr.project-inactive").hide();
-        $("button.project-inactive:contains('Hide')").text( $("button.project-inactive:contains('Hide')").text().replace(/Hide/g, "Show") );
-    }
 });
 
 $(document).ready( function () {

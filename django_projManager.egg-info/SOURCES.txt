@@ -49,6 +49,11 @@ pm/static/pm/fonts/ionicons.eot
 pm/static/pm/fonts/ionicons.svg
 pm/static/pm/fonts/ionicons.ttf
 pm/static/pm/fonts/ionicons.woff
+pm/static/pm/images/sort_asc.png
+pm/static/pm/images/sort_asc_disabled.png
+pm/static/pm/images/sort_both.png
+pm/static/pm/images/sort_desc.png
+pm/static/pm/images/sort_desc_disabled.png
 pm/static/pm/js/AdminLTE.js
 pm/static/pm/js/bootstrap.min.js
 pm/static/pm/js/custom.js

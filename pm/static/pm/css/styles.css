@@ -1,5 +1,12 @@
-tr.project-inactive { display: none; }
-tr.not-mine { display: none; }
+#index th { vertical-align: middle; }
+#index th.cust,
+#index th.pm,
+#index th.end,
+#index th.status,
+#index th.tasks { width: 10%; }
+#index th.proj,
+#index th.people { width: 18%; }
+#index th.ntask { width: 24%; }
 
 .bold { font-weight: bold; }
 
@@ -29,5 +36,3 @@ tr.not-mine { display: none; }
 #project-detail .task-list .input-help,
 #project-detail .task-list textarea,
 #project-detail .task-list select { display: none; }
-
-#project-detail .task-list none-date { text
