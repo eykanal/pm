@@ -6,7 +6,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 
 setup(
     name='django-projManager',
-    version='0.2.3',
+    version='0.2.5',
     packages=find_packages(),
     install_requires=['django >= 1.7', 'django-crispy-forms', 'django-jsonview'],
     include_package_data=True,
