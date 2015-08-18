@@ -136,7 +136,7 @@ var taskFunc = function() {
 
 $(document).keydown(function(e) {
     // "n" or "N" opens new task window
-    if(e.which == 78) {
+    if(e.which == 78 && document.activeElement.tagName.toLowerCase() === "body") {
         taskFunc();
     }
 
